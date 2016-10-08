@@ -1,51 +1,46 @@
-window.onload = function() {
-  focus();
-};
 
 
-function focus () {
+
+///////////////////
+// FUNCTIONS
+///////////////////
+function focus () { //Sets focus on the first text field on page load.
     document.getElementById("name").focus();
-
 }
-document.getElementById("title").addEventListener("change", titleOther);
-
-
-
-//var other; //could this hold any text from the other value, that I would pass in with session storage?
-//var input =
-
-
-
-
-
-
 
 
 
 function titleOther() {
     var e = document.getElementById("title");
-    var strUser = e.options[e.selectedIndex].value;
-//don't forget to delete / hide other element here.
-    console.log(strUser);
+    var titleSelection = e.options[e.selectedIndex].value;
+    if(document.getElementById("other-title"))
+        { var elem = document.getElementById("other-title");
+        elem.remove();
+        }
+    console.log(titleSelection);
     console.log("working");
-    if (strUser === "other") {
-        console.log("hello!");
-        addinputFields();
-    }
+    if (titleSelection === "other") { //of 'other' is selected, provide text input for user.
+        console.log("hello!"); //test.
+        (function (){ //nested anonymous function. This adds in input element.
+                    var form = document.getElementsByTagName("fieldset")[0]; //Getting the first fieldset (index 0) as their are others in this form.
+                    //originally tried to get the 'select' tag via its id, but this wouldn't work. Select tag seemed only able to display its options, but nothing else.
+
+                    var input = document.createElement("input");
+                        input.type = "text"; //set input attribute
+                        input.placeholder = "Your Title..."; //add placeholder attribute
+                        input.id = "other-title";
+                        form.appendChild(input); //append the newly formed input variable to the form variable holding the first fieldset.
+                    }
+)();
+}
 }
 
 
-function addinputFields(){
-    var form = document.getElementsByTagName("fieldset")[0];
-    var input = document.createElement("input");
-        input.type = "text";
-        input.placeholder = "Your Title...";
-        input.id = "other-title";
-        form.appendChild(input);
+///////////////////
+// WIRING
+///////////////////
+window.onload = function() {
+  focus();
+};
 
-        //Chris Extra Credit - this could be complete nonsense but an interesting experiment:
-        //and if user clicks off the other thing but then reselcts later, they lose their input? sessionstorage?
-        //would a pseudo element fit here?
-            //you'd need a variable to update everything a key is pressed (see old challenge). This variable is then logged, via a function?, to the session storage.
-            //on load this variable is accessed and passed to the input element.
-}
+document.getElementById("title").addEventListener("change", titleOther);
