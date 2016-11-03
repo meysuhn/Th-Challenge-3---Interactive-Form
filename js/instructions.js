@@ -16,21 +16,25 @@
 
 
 
-//"T-Shirt Info" section of the form: for the T-Shirt color menu, only display the options that match the design selected in the "Design" menu.
-    //If the user selects "Theme - JS Puns" then the color menu should only display "Cornflower Blue," "Dark Slate Grey," and "Gold."
-    //If the user selects "Theme - I ♥ JS" then the color menu should only display "Tomato," "Steel Blue," and "Dim Grey."
-// IF DESIGN = X, DISPLAY/HIDE Y. IF ELSE CLAUSE FOR THIS.
-    //EXTRA CREDIT: Hide the "Color" label and select menu until a T-Shirt design is selected from the "Design" menu.
-//HOPEFULLY NOT TOO DIFFICULT. AN IF / HIDE SCENARIO.
+//DONE - but I never figured what andy's method was...I'd like to have a go at this at another point.
+    //Plough on with other tasks and once more or less all done, ask the community. This way you're not going to get anxious about losing time...
+    // "T-Shirt Info" section of the form: for the T-Shirt color menu, only display the options that match the design selected in the "Design" menu.
+        //If the user selects "Theme - JS Puns" then the color menu should only display "Cornflower Blue," "Dark Slate Grey," and "Gold."
+        //If the user selects "Theme - I ♥ JS" then the color menu should only display "Tomato," "Steel Blue," and "Dim Grey."
+    // IF DESIGN = X, DISPLAY/HIDE Y. IF ELSE CLAUSE FOR THIS.
+        //EXTRA CREDIT: Hide the "Color" label and select menu until a T-Shirt design is selected from the "Design" menu.
+    //HOPEFULLY NOT TOO DIFFICULT. AN IF / HIDE SCENARIO.
 
 
 //"Register for Activities" section of the form:
     //Some events are at the same time as others. If the user selects a workshop, don't allow selection of a workshop at the same date and time -- you should disable the checkbox and visually indicate that the workshop in the competing time slot isn't available.
-//UNSURE HOW TO GO ABOUT THIS. CSS SELECTORS VID MAY HELP. but this is a js course...
-//NEED TO KNOW WHAT I'M LISTENING OUT FOR.
+//THE VIDEO DOES THIS BY GREYING OPTIONS OUT. Use disabled attribute with an if/else clause.
+
     //When a user unchecks an activity, make sure that competing activities (if there are any) are no longer disabled.
     //As a user selects activities to register for, a running total is listed below the list of checkboxes. For example, if the user selects "Main conference" then Total: $200 should appear. If they add 1 workshop, the total should change to Total: $300.
 //NEED TO FIND() THE DOLLAR SIGN FROM WITHIN THE TEXT? STORE THIS NUMBER AND CONVERT TO INTEGER. DOESN'T SEEM TO BE ANYTHING ELSE TO GO ON. THEN ADD UP ACCORDINGLY WITH A FUNCTION.
+
+
 
 
 //Payment Info section of the form: display payment sections based on chosen payment option

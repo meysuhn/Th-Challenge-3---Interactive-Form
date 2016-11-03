@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-	<div class="container">
+	<div class="container" >
 
     <header>
       <span>Register for</span>
@@ -40,7 +40,9 @@
       <fieldset class="shirt">
         <legend>T-Shirt Info</legend>
 
-        <div>
+
+
+        <div class="styled-select"> <!-- testing only. Don't hardcode in-->
           <label for="size">Size:</label>
           <select id="size" name="user_size">
             <option value="small">S</option>
@@ -72,7 +74,10 @@
         </div>
       </fieldset>
 
-      <fieldset class="activities">
+<!-- to check before submission! -->
+
+
+      <fieldset class="activities"> <!-- did I hard code this class in or was it already there?-->
         <legend>Register for Activities</legend>
         <label><input type="checkbox" name="all"> Main Conference — $200</label>
         <label><input type="checkbox" name="js-frameworks"> JavaScript Frameworks Workshop — Tuesday 9am-12pm, $100</label>
