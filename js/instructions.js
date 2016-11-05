@@ -37,11 +37,11 @@
 
 
 
-//Payment Info section of the form: display payment sections based on chosen payment option
+//DONE - //Payment Info section of the form: display payment sections based on chosen payment option
     //The "Credit Card" payment option should be selected by default and result in the display of the #credit-card div, and hide the "Paypal" and "Bitcoin information.
     //When a user selects the "PayPal" payment option, display the Paypal information, and hide the credit card information and the "Bitcoin" information.
     //When a user selects the "Bitcoin" payment option, display the Bitcoin information, and hide the credit card information.
-//HOW TO DO THIS WILL PROBABLY BECOME CLEARER ONCE I'VE TACKLED THE TASKS ABOVE
+
 
 
 //Form validation: display error messages and don't let the user submit the form if any of these validation errors exist:
@@ -68,8 +68,8 @@
 //Extra Credit
 //////////////////////////////////
 
-//Hide the "Color" label and select menu until a T-Shirt design is selected from the "Design" menu.
-//HOPEFULLY NOT TOO DIFFICULT. AN IF / HIDE SCENARIO.
+//DONE - //Hide the "Color" label and select menu until a T-Shirt design is selected from the "Design" menu.
+
 
 //Style the "select" menus (drop down menus) on the form, so they match the styling of the text fields (see Resources links for an article on how to improve the look of select menus using CSS and JavaScript).
 //PLAY WITH THIS AT THE END.

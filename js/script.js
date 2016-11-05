@@ -137,49 +137,95 @@ function activities (){
         document.getElementById('boxId2').firstChild.disabled = false;
         document.getElementById('boxId2').style.color= "black";
         }
+}
+
+var total =''; //holds the HTML string to display to page.
+
+function runningTotal() {
+    total = ''; //this empties the global variable's value to stop it storing each new string one on top of the other as the code repeats.
+    console.log("Running Total has fired!");
+
+    var a = document.getElementById('boxId0').textContent;
+    //console.log(a);
+    //var n = a.search("$");
+    //console.log(n);
+    var numb = a.match(/\$(\d+)/);
+    console.log(numb[1]);
+
+    var numberTotal = 300;
+    //have to build us the node text
+    myText = ("Total: $" + numberTotal);
+
+    var para = document.createElement("p");
+    var node = document.createTextNode(myText);
+    para.appendChild(node);
+    var element = document.getElementsByTagName("fieldset")[2];
+    element.appendChild(para);
+    //getElementsByTagName("fieldset")[2];
+    //var element =
+
+/*
+ //OR document.getElementsByTagName("fieldset")[2]
+    var content = document.getElementsByTagName("fieldset")[2];
+    //document.getElementsByClassName("activities");
+    var bonjour = "<p>hola</p>";
+    content.appendChild(bonjour);
+*/
+    //adapt this:
+    //var clash2a = document.getElementById('boxId2').firstChild;
+         //if (clash2a.checked) {
+
+
+
+    //total to oly diaply once a value is clicked (see vid)
+    //class of activities
+    //var total = ''; //this empties the variable's value to stop it storing each new string one on top of the other as the code repeats.
+
+    //var e = document.getElementsByClassName("activities");
+
+    //boxIDs!!!!
+
+    //var str = "Visit W3Schools!";
+    //var n = str.search("$");
+
+
 
 }
 
-// need to change text colour to grey
 
-
-//"Register for Activities" section of the form:
-    //Some events are at the same time as others. If the user selects a workshop, don't allow selection of a workshop at the same date and time -- you should disable the checkbox and visually indicate that the workshop in the competing time slot isn't available.
-//THE VIDEO DOES THIS BY GREYING OPTIONS OUT. Use disabled attribute with an if/else clause.
-
-    //When a user unchecks an activity, make sure that competing activities (if there are any) are no longer disabled.
     //As a user selects activities to register for, a running total is listed below the list of checkboxes. For example, if the user selects "Main conference" then Total: $200 should appear. If they add 1 workshop, the total should change to Total: $300.
 //NEED TO FIND() THE DOLLAR SIGN FROM WITHIN THE TEXT? STORE THIS NUMBER AND CONVERT TO INTEGER. DOESN'T SEEM TO BE ANYTHING ELSE TO GO ON. THEN ADD UP ACCORDINGLY WITH A FUNCTION.
 
+//or can I j
+
+var cc = document.getElementById("credit-card");
+var paypal = document.getElementById("credit-card").nextElementSibling;
+var bitcoin = paypal.nextElementSibling; //this seems brittle, but it works so leave for the time being
+var paymentFieldset = document.getElementsByTagName("fieldset")[3];
+paymentFieldset.removeChild(cc);
+paymentFieldset.removeChild(paypal);
+paymentFieldset.removeChild(bitcoin);
 
 
 function payment() {
-    document.getElementById("payment").options[1].selected = true; //not working
-
-
+    paymentFieldset.removeChild(paymentFieldset.childNodes[9]);
+    var e = document.getElementById("payment");
+    var paymentType = e.options[e.selectedIndex].text;
+    if (paymentType === "Credit Card") {
+        paymentFieldset.appendChild(cc);
+        console.log("Credit Card!");
+    } else if (paymentType === "PayPal") {
+        paymentFieldset.appendChild(paypal);
+        console.log("PayPal!");
+    } else if (paymentType === "Bitcoin") {
+        paymentFieldset.appendChild(bitcoin);
+        console.log("Bitcoin!");
+    } else {
+        document.getElementById("payment").options[1].selected = true;
+        paymentFieldset.appendChild(cc);
+    }
 
 }
-
-
-
-
-
-// Alternative approaches I'd like to test later
-
-//for the next task use the disabled FUNCTION
-// e.g. as above document.getElementById("color").options[4].disabled = true;
-
-
-//var hello = document.querySelectorAll('.activities input'); //this creates a static node list as it's using CSS selector syntax
-//console.log(hello);
-//console.log(document.querySelectorAll('.activities input'));
-
-//document.getElementsByClassName("activities"); //[3].disabled = true;
-//var activity = document.getElementsByClassName("activities"); //.child[1];
-// this is the target <fieldset class="activities">
-//if (activity == selected) {
-//document.getElementsByClassName("activities").label[3].disabled = true;
-
 
 ///////////////////
 // WIRING
@@ -196,3 +242,5 @@ document.getElementById("design").addEventListener("change", tShirt);
 //document.getElementsByClassName("activities").addEventListener("change", activities);
 //document.getElementsByType("fieldset").addEventListener("change", activities);
 document.getElementsByTagName("fieldset")[2].addEventListener("change", activities);
+document.getElementsByTagName("fieldset")[2].addEventListener("change", runningTotal);
+document.getElementById("payment").addEventListener("change", payment);
