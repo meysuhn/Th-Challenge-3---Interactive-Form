@@ -142,17 +142,36 @@ function activities (){
 var total =''; //holds the HTML string to display to page.
 
 function runningTotal() {
-    total = ''; //this empties the global variable's value to stop it storing each new string one on top of the other as the code repeats.
+    //total = ''; //this empties the global variable's value to stop it storing each new string one on top of the other as the code repeats.
     console.log("Running Total has fired!");
 
     var a = document.getElementById('boxId0').textContent;
-    //console.log(a);
-    //var n = a.search("$");
-    //console.log(n);
     var numb = a.match(/\$(\d+)/);
-    console.log(numb[1]);
+    var numb1 = (numb[1]);
+    var zdfvdfv = parseInt(numb1, 10); //converts string to number at base 10.
 
-    var numberTotal = 300;
+
+/*
+    if (document.getElementById("myCheck").checked === true) {
+        var b = document.getElementById('boxId0').textContent;
+        var num = a.match(/\$(\d+)/);
+    }
+    */
+
+    var activities = document.querySelector('.activities').getElementsByTagName('label');
+    var length = activities.length;
+
+    for (var i =0; i<length; i+=1) {
+        var temp = document.getElementById("boxId" + i).firstChild;
+        if (temp.checked) {
+            console.log("Boo");
+        }
+    }
+
+
+
+//Below sets up and inserts the HTML
+    var numberTotal = zdfvdfv + 3000;
     //have to build us the node text
     myText = ("Total: $" + numberTotal);
 
@@ -164,33 +183,20 @@ function runningTotal() {
     //getElementsByTagName("fieldset")[2];
     //var element =
 
-/*
- //OR document.getElementsByTagName("fieldset")[2]
-    var content = document.getElementsByTagName("fieldset")[2];
-    //document.getElementsByClassName("activities");
-    var bonjour = "<p>hola</p>";
-    content.appendChild(bonjour);
-*/
-    //adapt this:
-    //var clash2a = document.getElementById('boxId2').firstChild;
-         //if (clash2a.checked) {
-
-
-
-    //total to oly diaply once a value is clicked (see vid)
-    //class of activities
-    //var total = ''; //this empties the variable's value to stop it storing each new string one on top of the other as the code repeats.
-
-    //var e = document.getElementsByClassName("activities");
-
-    //boxIDs!!!!
-
-    //var str = "Visit W3Schools!";
-    //var n = str.search("$");
-
-
-
 }
+
+//bin this:
+//Later try to condense this down, but for now just get it done.
+/*  var checkbox1 = document.getElementById('boxId0');
+var checkbox2 = document.getElementById('boxId1');
+var checkbox3 = document.getElementById('boxId2');
+var checkbox4 = document.getElementById('boxId3');
+var checkbox5 = document.getElementById('boxId4');
+var checkbox6 = document.getElementById('boxId5');
+var checkbox7 = document.getElementById('boxId6');
+*/
+
+
 
 
     //As a user selects activities to register for, a running total is listed below the list of checkboxes. For example, if the user selects "Main conference" then Total: $200 should appear. If they add 1 workshop, the total should change to Total: $300.
@@ -227,6 +233,17 @@ function payment() {
 
 }
 
+
+//styling
+
+function style() {
+var x = document.getElementsByTagName("select");
+//console.log(x);
+x[1].style.backgroundColor = "red";
+//FUCK THIS BULLSHIT
+//x.style.color= "grey";
+}
+
 ///////////////////
 // WIRING
 ///////////////////
@@ -235,6 +252,7 @@ window.onload = function() {
   tShirt();
   activities();
   payment();
+  style();
 };
 
 document.getElementById("title").addEventListener("change", titleOther);
