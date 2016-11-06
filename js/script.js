@@ -230,6 +230,7 @@ x[1].style.backgroundColor = "red";
 ///////////////////
 window.onload = function() {
   focus();
+  titleOther();
   tShirt();
   activities();
   payment();

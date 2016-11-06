@@ -1,10 +1,3 @@
-//CAN I FIRST DO THIS IN J QUERY AND THEN TRY IN VANILLA JS?
-
-//Instructions
-
-//Create and link a JavaScript file to index.html
-    //Create a JavaScript file inside the "js" folder and link it to index.html
-    //If you're using jQuery, link index.html to the latest version of jQuery
 
 //DONE - //Set focus on the first text field:
     //When the page loads, give focus to the first text field
@@ -26,15 +19,11 @@
     //HOPEFULLY NOT TOO DIFFICULT. AN IF / HIDE SCENARIO.
 
 
-//"Register for Activities" section of the form:
+//DONE - //"Register for Activities" section of the form:
     //Some events are at the same time as others. If the user selects a workshop, don't allow selection of a workshop at the same date and time -- you should disable the checkbox and visually indicate that the workshop in the competing time slot isn't available.
 //THE VIDEO DOES THIS BY GREYING OPTIONS OUT. Use disabled attribute with an if/else clause.
-
     //When a user unchecks an activity, make sure that competing activities (if there are any) are no longer disabled.
     //As a user selects activities to register for, a running total is listed below the list of checkboxes. For example, if the user selects "Main conference" then Total: $200 should appear. If they add 1 workshop, the total should change to Total: $300.
-//NEED TO FIND() THE DOLLAR SIGN FROM WITHIN THE TEXT? STORE THIS NUMBER AND CONVERT TO INTEGER. DOESN'T SEEM TO BE ANYTHING ELSE TO GO ON. THEN ADD UP ACCORDINGLY WITH A FUNCTION.
-
-
 
 
 //DONE - //Payment Info section of the form: display payment sections based on chosen payment option
