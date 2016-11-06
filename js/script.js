@@ -139,24 +139,23 @@ function activities (){
         }
 }
 
-var total =''; //holds the HTML string to display to page.
+
+
+
+
+
+//var paymentFieldset = document.getElementsByTagName("fieldset")[3];
+var newTotal = 0; //holds the HTML string to display to page.
 
 function runningTotal() {
-    //total = ''; //this empties the global variable's value to stop it storing each new string one on top of the other as the code repeats.
+    //paymentFieldset.removeChild(paymentFieldset.childNodes[9]);
+    newTotal = 0; //this empties the global variable's value to stop it storing each new string one on top of the other as the code repeats.
+    if(document.getElementById("total"))
+        { var elem = document.getElementById("total");
+        elem.remove();
+        }
+
     console.log("Running Total has fired!");
-
-    var a = document.getElementById('boxId0').textContent;
-    var numb = a.match(/\$(\d+)/);
-    var numb1 = (numb[1]);
-    var zdfvdfv = parseInt(numb1, 10); //converts string to number at base 10.
-
-
-/*
-    if (document.getElementById("myCheck").checked === true) {
-        var b = document.getElementById('boxId0').textContent;
-        var num = a.match(/\$(\d+)/);
-    }
-    */
 
     var activities = document.querySelector('.activities').getElementsByTagName('label');
     var length = activities.length;
@@ -164,45 +163,27 @@ function runningTotal() {
     for (var i =0; i<length; i+=1) {
         var temp = document.getElementById("boxId" + i).firstChild;
         if (temp.checked) {
+            var a = document.getElementById("boxId" + i).textContent;
+            var numb = a.match(/\$(\d+)/);
+            var numb1 = (numb[1]);
+            var newNumber = parseInt(numb1, 10); //converts string to number at base 10.
+            newTotal = newTotal + newNumber;
             console.log("Boo");
         }
     }
 
-
-
-//Below sets up and inserts the HTML
-    var numberTotal = zdfvdfv + 3000;
-    //have to build us the node text
-    myText = ("Total: $" + numberTotal);
-
-    var para = document.createElement("p");
-    var node = document.createTextNode(myText);
-    para.appendChild(node);
-    var element = document.getElementsByTagName("fieldset")[2];
-    element.appendChild(para);
-    //getElementsByTagName("fieldset")[2];
-    //var element =
-
+    if (newTotal !== 0) {
+        myText = ("Total: $" + newTotal);
+        var para = document.createElement("p");
+        para.id = "total";
+        var node = document.createTextNode(myText);
+        para.appendChild(node);
+        var element = document.getElementsByTagName("fieldset")[2];
+        element.appendChild(para);
+    }
 }
 
-//bin this:
-//Later try to condense this down, but for now just get it done.
-/*  var checkbox1 = document.getElementById('boxId0');
-var checkbox2 = document.getElementById('boxId1');
-var checkbox3 = document.getElementById('boxId2');
-var checkbox4 = document.getElementById('boxId3');
-var checkbox5 = document.getElementById('boxId4');
-var checkbox6 = document.getElementById('boxId5');
-var checkbox7 = document.getElementById('boxId6');
-*/
 
-
-
-
-    //As a user selects activities to register for, a running total is listed below the list of checkboxes. For example, if the user selects "Main conference" then Total: $200 should appear. If they add 1 workshop, the total should change to Total: $300.
-//NEED TO FIND() THE DOLLAR SIGN FROM WITHIN THE TEXT? STORE THIS NUMBER AND CONVERT TO INTEGER. DOESN'T SEEM TO BE ANYTHING ELSE TO GO ON. THEN ADD UP ACCORDINGLY WITH A FUNCTION.
-
-//or can I j
 
 var cc = document.getElementById("credit-card");
 var paypal = document.getElementById("credit-card").nextElementSibling;
