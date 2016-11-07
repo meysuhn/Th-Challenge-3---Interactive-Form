@@ -148,14 +148,11 @@ function activities (){
 var newTotal = 0; //holds the HTML string to display to page.
 
 function runningTotal() {
-    //paymentFieldset.removeChild(paymentFieldset.childNodes[9]);
     newTotal = 0; //this empties the global variable's value to stop it storing each new string one on top of the other as the code repeats.
     if(document.getElementById("total"))
         { var elem = document.getElementById("total");
         elem.remove();
         }
-
-    console.log("Running Total has fired!");
 
     var activities = document.querySelector('.activities').getElementsByTagName('label');
     var length = activities.length;
@@ -168,7 +165,6 @@ function runningTotal() {
             var numb1 = (numb[1]);
             var newNumber = parseInt(numb1, 10); //converts string to number at base 10.
             newTotal = newTotal + newNumber;
-            console.log("Boo");
         }
     }
 
@@ -215,14 +211,60 @@ function payment() {
 }
 
 
+// onload need to add 'required' etc to various elements
+
+
+//Form Validation
+    //has to only run once submit button is clicked (see video)
+
+    //check elements to see if required returns false/true
+        //if info needed add error message
+
+
+//use HTML form validation? or use javascript? The former being inserted with javascript
+
+//Name: (please provide you name)
+
+//Email: (please provide a valid email address)
+
+//Don't forget to pick a T-Shirt
+
+//Please select an activity
+
+//to test if credit card option elected see the method somewhere above. there is a test for presence of html somewhere there.
+
+
+
+
+//Form validation: display error messages and don't let the user submit the form if any of these validation errors exist:
+    //Name field can't be empty
+    //Email field must be a validly formatted e-mail address (you don't have to check that it's a real e-mail address, just that it's formatted like one: dave@teamtreehouse.com for example. You'll need to use a regular expression to get this requirement. See the list of Resources for links to learn about regular expressions.
+    //At least one activity must be checked from the list under "Register for Actitivities."
+    //Payment option must be selected.
+    //If "Credit card" is the selected payment option, make sure the user supplied a credit card number, a zip code, and a 3 number CVV value.
+
+
+
+
+
+
+
+
+
+
 //styling
 
 function style() {
 var x = document.getElementsByTagName("select");
 //console.log(x);
-x[1].style.backgroundColor = "red";
-//FUCK THIS BULLSHIT
+//x[1].style.backgroundColor = "red";
+
 //x.style.color= "grey";
+
+//First, keep the hard-coded html in. Just try to get the styles working from here.
+
+
+
 }
 
 ///////////////////

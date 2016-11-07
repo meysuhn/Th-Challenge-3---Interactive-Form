@@ -101,6 +101,8 @@ input[type="radio"] {
 	display: inline-block;
 }
 
+/* WHAT IS THIS???!?!? */
+
 /*added by me but should this be coded in rather than hard wired?*/
 input[type="text"]:disabled {
     background: #dddddd;
@@ -184,4 +186,39 @@ button:hover {
 	.col-6 {
 		width: 49%;
 	}
+}
+
+/* =================================
+  My Styles - without the picture file! Works better
+==================================== */
+
+
+
+.styled-select select{
+
+  -webkit-appearance: none; /* This doesn'seem to do anything though? */
+
+ /* need to understand what's happening here. If I add select t */
+ }
+
+.styled-select {
+font-family: 'Roboto', sans-serif;
+margin-bottom: 1.125em;
+background: #accbd9;
+font-size: 1em;
+line-height: 1;
+padding: .8em;
+background: #c1deeb;
+border: 2px solid #c1deeb;
+outline: none;
+/* font-weight: 500; */
+width: auto;
+height: 1.5em;
+overflow: hidden;
+}
+
+.styled-select:focus {
+     background: #fff;
+     border-color: #5e97b0;
+     transition: border-color .4s, background-color .4s;
 }
