@@ -1,6 +1,3 @@
-//use a query selector on all the select elements. Use this to add a class to each select element.
-    //fixinf the activities function below should give some guidance on this.
-
 
 ///////////////////
 // FUNCTIONS
@@ -244,27 +241,19 @@ function payment() {
     //If "Credit card" is the selected payment option, make sure the user supplied a credit card number, a zip code, and a 3 number CVV value.
 
 
-
-
-
-
-
-
-
-
 //styling
 
 function style() {
-var x = document.getElementsByTagName("select");
-//console.log(x);
-//x[1].style.backgroundColor = "red";
+console.log("Style has fired!");
+document.getElementById("title").classList.toggle("styled-select");
+document.getElementById("size").classList.toggle("styled-select");
+document.getElementById("design").classList.toggle("styled-select");
+document.getElementById("color").classList.toggle("styled-select");
+document.getElementById("payment").classList.toggle("styled-select");
+document.getElementById("exp-month").classList.toggle("styled-select");
+document.getElementById("exp-year").classList.toggle("styled-select");
 
-//x.style.color= "grey";
-
-//First, keep the hard-coded html in. Just try to get the styles working from here.
-
-
-
+//couldn't figure out how to add a class using getElementsByType or getElementsByTagName. Each time returned undefined?
 }
 
 ///////////////////
@@ -286,3 +275,13 @@ document.getElementById("design").addEventListener("change", tShirt);
 document.getElementsByTagName("fieldset")[2].addEventListener("change", activities);
 document.getElementsByTagName("fieldset")[2].addEventListener("change", runningTotal);
 document.getElementById("payment").addEventListener("change", payment);
+
+
+document.getElementsByTagName("button")[0].addEventListener("click", register, false); //starts code off once button is clicked.
+function register() {
+    console.log("Register!");
+}
+
+//getElementsByTagName needs array notation to access elements.
+//getElementById does not.
+// research this.

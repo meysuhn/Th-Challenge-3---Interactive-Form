@@ -39,8 +39,7 @@
     //At least one activity must be checked from the list under "Register for Actitivities."
     //Payment option must be selected.
     //If "Credit card" is the selected payment option, make sure the user supplied a credit card number, a zip code, and a 3 number CVV value.
-//SOME ELONGATED SERIES OF IFs HERE? ONE IF FOR EACH VALIDATION ABOVE.
-//THEN CAN YOU DO IF...AND...IF...? IS THAT A THING? OR IS THERE A BETTER WAY?
+
 
 
 
@@ -60,7 +59,7 @@
 //DONE - //Hide the "Color" label and select menu until a T-Shirt design is selected from the "Design" menu.
 
 
-//Style the "select" menus (drop down menus) on the form, so they match the styling of the text fields (see Resources links for an article on how to improve the look of select menus using CSS and JavaScript).
+//DONE - //Style the "select" menus (drop down menus) on the form, so they match the styling of the text fields (see Resources links for an article on how to improve the look of select menus using CSS and JavaScript).
 //PLAY WITH THIS AT THE END.
 
 //Validate the credit card number so that it's a validly formatted credit card number. (see the Resources links for information on how to do this.)
