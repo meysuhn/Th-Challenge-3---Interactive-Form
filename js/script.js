@@ -1,4 +1,17 @@
 
+
+///////////////////
+// VARIABLES
+///////////////////
+
+var newTotal = 0; //for runningTotal function. Holds the HTML string to display to page.
+
+//below variables belong to payment function
+var cc = document.getElementById("credit-card");
+var paypal = document.getElementById("credit-card").nextElementSibling;
+var bitcoin = paypal.nextElementSibling; //this seems brittle, but it works so leave for the time being
+var paymentFieldset = document.getElementsByTagName("fieldset")[3]; //stores fieldset of payment section
+
 ///////////////////
 // FUNCTIONS
 ///////////////////
@@ -7,26 +20,23 @@ function focus () { //Sets focus on the first text field on page load.
 }
 
 
-
 function titleOther() {
     var e = document.getElementById("title");
-    var titleSelection = e.options[e.selectedIndex].value; //I THINK THESE TWO VARS CAN BE COMBINED INTO ONE.
-    if(document.getElementById("other-title"))
-        { var elem = document.getElementById("other-title");
-        elem.remove();
-        }
-    //console.log(titleSelection);
-    //console.log("working");
-    if (titleSelection === "other") { //of 'other' is selected, provide text input for user.
-        //console.log("hello!"); //test.
-        (function (){ //nested anonymous function. This adds in input element.
-                    var form = document.getElementsByTagName("fieldset")[0]; //Getting the first fieldset (index 0) as their are others in this form.
-                    //originally tried to get the 'select' tag via its id, but this wouldn't work. Select tag seemed only able to display its options, but nothing else.
+    var titleSelection = e.options[e.selectedIndex].value; //get the value of selected index
 
-                    var input = document.createElement("input");
+    if(document.getElementById("other-title")) //if other input is present then remove
+        //this works onload to remove for those who have javascript enabled
+        { var elem = document.getElementById("other-title");
+        elem.remove(); //remove 'other' input if present
+        }
+
+    if (titleSelection === "other") { //if 'other' is selected then provide text input for user.
+        (function (){ //nested anonymous function. This adds in input element.
+                    var form = document.getElementsByTagName("fieldset")[0]; //Getting the first fieldset (index 0)
+                    var input = document.createElement("input"); //create input element
                         input.type = "text"; //set input attribute
                         input.placeholder = "Your Title..."; //add placeholder attribute
-                        input.id = "other-title";
+                        input.id = "other-title"; //add id to input element
                         form.appendChild(input); //append the newly formed input variable to the form variable holding the first fieldset.
                     }
 )();
@@ -34,13 +44,12 @@ function titleOther() {
 }
 
 
-//T-shirt info tasks
+//need to add comments to this function
 
-function tShirt() {
+function tShirt() { //T-shirt info tasks
 
     var e = document.getElementById("design");
     var theme = e.options[e.selectedIndex].text;
-    console.log("tShirt function has fired");
 
     document.getElementById("color").options[0].hidden = false;
     document.getElementById("color").options[1].hidden = false;
@@ -49,7 +58,6 @@ function tShirt() {
     document.getElementById("color").options[4].hidden = false;
     document.getElementById("color").options[5].hidden = false;
 
-    //console.log(theme);
         if (theme === "Select Theme")
             {
             console.log("Select Theme has fired");
@@ -58,7 +66,6 @@ function tShirt() {
         else if (theme === "Theme - JS Puns") {
             console.log("Puns has fired");
             document.getElementById("colors-js-puns").style.visibility = "visible";
-            //document.getElementById("color").innerHTML = f;
             document.getElementById("color").options[3].hidden = true;
             document.getElementById("color").options[4].hidden = true;
             document.getElementById("color").options[5].hidden = true;
@@ -66,7 +73,6 @@ function tShirt() {
         } else if (theme === "Theme - I ♥ JS"){
             console.log("Heart has fired");
             document.getElementById("colors-js-puns").style.visibility = "visible";
-            //document.getElementById("color").innerHTML = heartOptions;
             document.getElementById("color").options[3].selected = true;
             document.getElementById("color").options[0].hidden = true;
             document.getElementById("color").options[1].hidden = true;
@@ -76,25 +82,14 @@ function tShirt() {
 
 }
 
-
-
-//CONFERENCE FUNCTION
-//THE CLASHES ARE:
-    //INDEX 1 CLASHES WITH INDEX 3
-    //INDEX 2 CLASHES WITH INDEX 4
-
-    //is the problem here that undisable is fired when no disable property has yet been set? maybe put this function in an iffy? not on load...
-function activities (){
-    //undisable();
+//add more comments to this function
+function activities (){ //this function disables and greys out clashing workshops
     var activities = document.querySelector('.activities').getElementsByTagName('label');
     var length = activities.length;
-    for (var i =0; i<length; i+=1) {
+    for (var i =0; i<length; i+=1) { //add an id to each of the workshops
         activities[i].id = "boxId" + i;
         }
-    console.log("activities has fired");
-//Is there a way to make the following 4 blocks of code shorter?
 
-//no longer goes disabled? why?
     var clash1a = document.getElementById('boxId1').firstChild;
         if (clash1a.checked) {
         document.getElementById('boxId3').style.color= "grey";
@@ -136,14 +131,7 @@ function activities (){
         }
 }
 
-
-
-
-
-
-//var paymentFieldset = document.getElementsByTagName("fieldset")[3];
-var newTotal = 0; //holds the HTML string to display to page.
-
+//add comments to this function
 function runningTotal() {
     newTotal = 0; //this empties the global variable's value to stop it storing each new string one on top of the other as the code repeats.
     if(document.getElementById("total"))
@@ -178,73 +166,50 @@ function runningTotal() {
 
 
 
-var cc = document.getElementById("credit-card");
-var paypal = document.getElementById("credit-card").nextElementSibling;
-var bitcoin = paypal.nextElementSibling; //this seems brittle, but it works so leave for the time being
-var paymentFieldset = document.getElementsByTagName("fieldset")[3];
 paymentFieldset.removeChild(cc);
 paymentFieldset.removeChild(paypal);
 paymentFieldset.removeChild(bitcoin);
 
-
 function payment() {
-    paymentFieldset.removeChild(paymentFieldset.childNodes[9]);
+    paymentFieldset.removeChild(paymentFieldset.childNodes[9]); //removes either bitcoin, paypal or cc, whichever has been previously selected.
     var e = document.getElementById("payment");
     var paymentType = e.options[e.selectedIndex].text;
-    if (paymentType === "Credit Card") {
+    if (paymentType === "Credit Card") { //adds in cc section if selected
         paymentFieldset.appendChild(cc);
-        console.log("Credit Card!");
-    } else if (paymentType === "PayPal") {
+
+//jQuery Plugin starts here
+        var result = $('#cc_num').validateCreditCard(valid);
+        alert('CC type: ' + result.card_type.name + '\nLength validation: ' + result.length_valid+ '\nLuhn validation: ' + result.luhn_valid);
+//jQuery Plugin ends
+
+    } else if (paymentType === "PayPal") { //adds in paypal section if selected
         paymentFieldset.appendChild(paypal);
-        console.log("PayPal!");
     } else if (paymentType === "Bitcoin") {
-        paymentFieldset.appendChild(bitcoin);
-        console.log("Bitcoin!");
+        paymentFieldset.appendChild(bitcoin); //adds in bitcoin section if selected
     } else {
         document.getElementById("payment").options[1].selected = true;
-        paymentFieldset.appendChild(cc);
+        paymentFieldset.appendChild(cc); //this sets cc option as default if nother else selected (for onload, essentially)
     }
 
 }
 
 
+//Validation function
 // onload need to add 'required' etc to various elements
-
-
 //Form Validation
     //has to only run once submit button is clicked (see video)
 
     //check elements to see if required returns false/true
         //if info needed add error message
-
-
 //use HTML form validation? or use javascript? The former being inserted with javascript
-
 //Name: (please provide you name)
-
 //Email: (please provide a valid email address)
-
 //Don't forget to pick a T-Shirt
-
 //Please select an activity
-
 //to test if credit card option elected see the method somewhere above. there is a test for presence of html somewhere there.
 
 
-
-
-//Form validation: display error messages and don't let the user submit the form if any of these validation errors exist:
-    //Name field can't be empty
-    //Email field must be a validly formatted e-mail address (you don't have to check that it's a real e-mail address, just that it's formatted like one: dave@teamtreehouse.com for example. You'll need to use a regular expression to get this requirement. See the list of Resources for links to learn about regular expressions.
-    //At least one activity must be checked from the list under "Register for Actitivities."
-    //Payment option must be selected.
-    //If "Credit card" is the selected payment option, make sure the user supplied a credit card number, a zip code, and a 3 number CVV value.
-
-
-//styling
-
-function style() {
-console.log("Style has fired!");
+function style() { //This function styles the select drop-down menus
 document.getElementById("title").classList.toggle("styled-select");
 document.getElementById("size").classList.toggle("styled-select");
 document.getElementById("design").classList.toggle("styled-select");
@@ -270,15 +235,13 @@ window.onload = function() {
 
 document.getElementById("title").addEventListener("change", titleOther);
 document.getElementById("design").addEventListener("change", tShirt);
-//document.getElementsByClassName("activities").addEventListener("change", activities);
-//document.getElementsByType("fieldset").addEventListener("change", activities);
 document.getElementsByTagName("fieldset")[2].addEventListener("change", activities);
 document.getElementsByTagName("fieldset")[2].addEventListener("change", runningTotal);
 document.getElementById("payment").addEventListener("change", payment);
-
-
 document.getElementsByTagName("button")[0].addEventListener("click", register, false); //starts code off once button is clicked.
-function register() {
+
+//this needs to be moved up once completed.
+function register() { //this functions will start validation once button is pressed
     console.log("Register!");
 }
 
