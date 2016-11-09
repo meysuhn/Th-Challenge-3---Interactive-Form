@@ -346,7 +346,7 @@ function valid_credit_card() { //used to be valid_credit_card(value). I avoided 
         ccMessage.style.color= '#8B0000';
         // return false;
     }
-	// The Luhn Algorithm. It's so pretty.
+	//Luhn Algorithm. 
 	var nCheck = 0, nDigit = 0, bEven = false; //a series of storage variables
 	ccValue = ccValue.replace(/\D/g, "");
 
