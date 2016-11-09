@@ -21,12 +21,17 @@
         <legend>Basic Info</legend>
 
         <label for="name">Name:</label>
-        <input type="text" id="name" name="user_name">
+
+
+<!-- required hard coded in. Fix. -->
+
+
+        <input type="text" id="name" name="user_name" required>
 
         <label for="mail">Email:</label>
         <input type="email" id="mail" name="user_email">
 
-        <label for="title">Job Role</label>
+        <label for="title" required>Job Role</label>
         <select id="title" name="user_title">
           <option value="full-stack js developer">Full Stack JavaScript Developer</option>
           <option value="front-end developer">Front End Developer</option>
@@ -38,9 +43,12 @@
         </select>
       </fieldset>
 
-      <fieldset class="shirt">
-        <legend>T-Shirt Info</legend>
 
+
+
+<!--IDs hard coded in for now -->
+      <fieldset class="shirt">
+        <legend id="shirtError">T-Shirt Info</legend>
         <div>
           <label for="size">Size:</label>
           <select id="size" name="user_size">
@@ -73,8 +81,9 @@
         </div>
       </fieldset>
 
+
       <fieldset class="activities">
-        <legend>Register for Activities</legend>
+        <legend id="actError">Register for Activities</legend>
         <label><input type="checkbox" name="all"> Main Conference — $200</label>
         <label><input type="checkbox" name="js-frameworks"> JavaScript Frameworks Workshop — Tuesday 9am-12pm, $100</label>
         <label><input type="checkbox" name="js-libs"> JavaScript Libraries Workshop — Tuesday 1pm-4pm, $100</label>
@@ -98,19 +107,20 @@
         <div id="credit-card" class="credit-card">
 
           <div class="col-6 col">
-            <label for="cc-num">Card Number:</label>
-        	  <input id="cc-num" name="user_cc-num" type="text">
-              <!--validateCreditCard class added above for jQuery plugin-->
+            <label id="cc-num" for="cc-num">Card Number:</label>
+        	  <input id="cc-numInput" name="user_cc-num" type="text" required>
+              <!--ALL ids added above for jQuery plugin-->
+              <!-- required hard coded in. Fix. -->
           </div>
 
           <div class="col-3 col">
-            <label for="zip">Zip Code:</label>
-            <input id="zip" name="user_zip" type="text">
+            <label id="zipCodeLabel" for="zip">Zip Code:</label>
+            <input id="zip" name="user_zip" type="text" required>
           </div>
 
           <div class="col-3 col">
-            <label for="cvv">CVV:</label>
-            <input id="cvv" name="user_cvv" type="text">
+            <label id="cvvLabel" for="cvv">CVV:</label>
+            <input id="cvv" name="user_cvv" type="text" required>
           </div>
 
           <label for="exp-month">Expiration Date:</label>
@@ -153,9 +163,6 @@
     </form>
 
 	</div>
-     <script   src="https://code.jquery.com/jquery-3.1.0.min.js"  integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
-     <!-- jQuery needs to load before any plugin file-->
-     <script scr="cardvalidatorplugin/jquery.creditCardValidator.js"></script>
      <script src="js/script.js"></script>
 </body>
 </html>

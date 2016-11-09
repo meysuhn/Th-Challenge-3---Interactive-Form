@@ -20,7 +20,7 @@ function focus () { //Sets focus on the first text field on page load.
 }
 
 
-function titleOther() {
+function titleOther() { //
     var e = document.getElementById("title");
     var titleSelection = e.options[e.selectedIndex].value; //get the value of selected index
 
@@ -60,7 +60,6 @@ function tShirt() { //T-shirt info tasks
 
         if (theme === "Select Theme")
             {
-            console.log("Select Theme has fired");
             document.getElementById("colors-js-puns").style.visibility = "hidden";
             }
         else if (theme === "Theme - JS Puns") {
@@ -171,42 +170,208 @@ paymentFieldset.removeChild(paypal);
 paymentFieldset.removeChild(bitcoin);
 
 function payment() {
-    paymentFieldset.removeChild(paymentFieldset.childNodes[9]); //removes either bitcoin, paypal or cc, whichever has been previously selected.
+    if (paymentFieldset.childNodes[9]) { //checks to see if a 9th childNode is present (there won't be if a user has selected 'Select Payment Method')
+        paymentFieldset.removeChild(paymentFieldset.childNodes[9]); //removes either bitcoin, paypal or cc, whichever has been previously selected.
+        //document.getElementById("exp-month").classList.toggle("styled-select");
+        //document.getElementById("exp-year").classList.toggle("styled-select");
+        }
     var e = document.getElementById("payment");
     var paymentType = e.options[e.selectedIndex].text;
     if (paymentType === "Credit Card") { //adds in cc section if selected
         paymentFieldset.appendChild(cc);
 
-//jQuery Plugin starts here
-        var result = $('#cc_num').validateCreditCard(valid);
-        alert('CC type: ' + result.card_type.name + '\nLength validation: ' + result.length_valid+ '\nLuhn validation: ' + result.luhn_valid);
-//jQuery Plugin ends
-
     } else if (paymentType === "PayPal") { //adds in paypal section if selected
         paymentFieldset.appendChild(paypal);
     } else if (paymentType === "Bitcoin") {
         paymentFieldset.appendChild(bitcoin); //adds in bitcoin section if selected
-    } else {
+    } /* else {
         document.getElementById("payment").options[1].selected = true;
-        paymentFieldset.appendChild(cc); //this sets cc option as default if nother else selected (for onload, essentially)
+        paymentFieldset.appendChild(cc); //this sets cc option as default if nother else selected (for onload, essentially) */
+    }
+
+
+function disableBubbles() {
+    document.querySelector( "input" ).addEventListener( "invalid",
+            function( event ) {
+                event.preventDefault();
+            });
+}
+
+function validate() {
+    disableBubbles();
+
+    //name input validator
+    var x = document.getElementById("name");
+    if(x.validity.valid === false) {
+        var y = document.getElementsByTagName("fieldset")[0].childNodes[3];
+        //console.log(y);
+        y.style.color= '#8B0000';
+        y.textContent= "Name: (please provide your name)";
+    }
+    //email input validator
+    var email = document.getElementById("mail");
+    var valid = /[^@]+@[^@]+/.test(email.value);
+    if(!valid) {
+        var newEmail = document.getElementsByTagName("fieldset")[0].childNodes[9];
+        newEmail.style.color= '#8B0000';
+        newEmail.textContent= "Email: (please provide a valid email address)";
+    }
+
+    //T-Shirt validator
+    var b = document.getElementById("design");
+    var selectedValue = b.options[b.selectedIndex].value;
+    if (selectedValue == "Select Theme") {
+        console.log("T Shirt Validation has fired");
+
+         var d2 = document.getElementById("shirtError");
+         d2.insertAdjacentHTML('beforebegin', '<p id="one">Don\'t forget to pick a T-Shirt</p>');
+         var d2colour = document.getElementById("one");
+         d2colour.style.color = '#8B0000';
+
+    }
+
+    var d1 = document.getElementById("actError");
+    d1.insertAdjacentHTML('beforebegin', '<p id="two">Please select an Activity</p>');
+    var newcolour = document.getElementById("two");
+    newcolour.style.color = '#8B0000';
+
+    //Activity validator
+    var activities = document.querySelector('.activities').getElementsByTagName('label');
+    var length = activities.length;
+    var okay=false;
+
+    for (var i =0; i<length; i+=1) { //add an id to each of the workshops
+    var checkbox = document.getElementById('boxId' + i).firstChild;
+        if (checkbox.checked) {
+            okay=true;
+            break;
+        }
+    else {
+        console.log("Please check a checkbox");
+
+
+
+var d1 = document.getElementById("actError");
+d1.insertAdjacentHTML('beforebegin', '<p id="two">Please select an Activity</p>');
+var newcolour = document.getElementById("two");
+newcolour.style.color = '#8B0000';
+break;
+}
+}
+
+//Payment type validator
+ var payment = document.getElementById("payment");
+ var selectedValue = payment.options[payment.selectedIndex].value;
+ if (selectedValue == "select_method")
+ {
+ var paymentError = document.getElementsByTagName("fieldset")[3].childNodes[3];
+ paymentError.style.color= '#8B0000';
+ paymentError.textContent= "Payment (please select a payment method:)";
+} else {
+ var paymentMessage = document.getElementsByTagName("fieldset")[3].childNodes[3];
+ paymentMessage.style.color= 'black';
+ paymentMessage.textContent= "I'm going to pay with:";
+}
+
+
+//add an onchange to above so that message returns to black after user selects credit card?
+
+
+    //Credit Card Validator
+//to test if credit card option elected see the method somewhere above. there is a test for presence of html somewhere there.
+    var e = document.getElementById("payment");
+    var paymentType = e.options[e.selectedIndex].text;
+        if (paymentType === "Credit Card") {
+            //console.log("Val val val");
+            var cardInput = document.getElementById("cc-numInput");
+                if(cardInput.validity.valid === false) {
+                var cardMessage = document.getElementById("cc-num"); //THIS ID HAS BEEN HARDCODED IN. FIX.
+                //document.getElementsByTagName("fieldset")[3].childNodes[9];
+                cardMessage.style.color= '#8B0000';
+        }
+
+
+
+
+    //zipcode validator
+    var zipCodeInput = document.getElementById("zip");
+    var zipMessage = document.getElementById("zipCodeLabel"); //THIS ID HAS BEEN HARDCODED IN. FIX.
+        if(zipCodeInput.validity.valid === false) {
+        zipMessage.style.color= '#8B0000';
+    }  else {
+        zipMessage.style.color= '#000000'; //resets colour to black if zip code entered.
+    }
+    //cvv validator
+    var cvvInput = document.getElementById("cvv");
+    var cvvMessage = document.getElementById("cvvLabel"); //THIS ID HAS BEEN HARDCODED IN. FIX.
+    var validCvv = /[0-9]{3}/.test(cvvInput.value); //regex test checks to see if content is made up of numbers of length 3.
+
+    if(cvvInput.validity.valid === false) {
+        cvvMessage.textContent= "Enter CVV:";
+        cvvMessage.style.color= '#8B0000';
+        console.log("No text entered");
+    } else if (!validCvv) {
+        cvvMessage.textContent= "CVV (3 digits):";
+        console.log("not a valid cvv");
+        cvvMessage.style.color= '#8B0000';
+    } else {
+        cvvMessage.textContent= "CVV:";
+        console.log("Valid CVV");
+        cvvMessage.style.color= '#000000'; //resets colour to black if zip code entered.
+    }
+
+}
+valid_credit_card();
+} //end of function
+
+
+/////////////////////
+// LUHN!!
+/////////////////////
+
+
+
+
+// takes the form field value and returns true on valid number
+function valid_credit_card() { //used to be valid_credit_card(value). I avoided using arguments here but need to understand this better to improve my code.
+
+    var cardInput1 = document.getElementById("cc-numInput");
+    var ccValue = cardInput1.value;
+    var ccMessage = document.getElementById("cc-num"); //THIS ID HAS BEEN HARDCODED IN. FIX.
+    console.log(ccValue);
+  // accept only digits, dashes or spaces
+	if (/[^0-9-\s]+/.test(ccValue)) {
+        console.log("Invalid Card Number");
+        ccMessage.textContent= "Invalid Card Number:";
+        ccMessage.style.color= '#8B0000';
+        // return false;
+    }
+	// The Luhn Algorithm. It's so pretty.
+	var nCheck = 0, nDigit = 0, bEven = false; //a series of storage variables
+	ccValue = ccValue.replace(/\D/g, "");
+
+    for (var n = ccValue.length - 1; n >= 0; n--) {
+		var cDigit = ccValue.charAt(n),
+			  nDigit = parseInt(cDigit, 10);
+
+          if (bEven) {
+  			if ((nDigit *= 2) > 9) nDigit -= 9;
+  		}
+
+        nCheck += nDigit;
+		bEven = !bEven;
+	}
+    var luhnResult = (nCheck % 10) === 0; //return
+    if (luhnResult === false) {
+        ccMessage.textContent= "Invalid Card Number:";
+        ccMessage.style.color= '#8B0000';
+    } else {
+        ccMessage.textContent= "Card Number:";
+        ccMessage.style.color= '#000000';
     }
 
 }
 
-
-//Validation function
-// onload need to add 'required' etc to various elements
-//Form Validation
-    //has to only run once submit button is clicked (see video)
-
-    //check elements to see if required returns false/true
-        //if info needed add error message
-//use HTML form validation? or use javascript? The former being inserted with javascript
-//Name: (please provide you name)
-//Email: (please provide a valid email address)
-//Don't forget to pick a T-Shirt
-//Please select an activity
-//to test if credit card option elected see the method somewhere above. there is a test for presence of html somewhere there.
 
 
 function style() { //This function styles the select drop-down menus
@@ -215,8 +380,7 @@ document.getElementById("size").classList.toggle("styled-select");
 document.getElementById("design").classList.toggle("styled-select");
 document.getElementById("color").classList.toggle("styled-select");
 document.getElementById("payment").classList.toggle("styled-select");
-document.getElementById("exp-month").classList.toggle("styled-select");
-document.getElementById("exp-year").classList.toggle("styled-select");
+
 
 //couldn't figure out how to add a class using getElementsByType or getElementsByTagName. Each time returned undefined?
 }
@@ -231,6 +395,10 @@ window.onload = function() {
   activities();
   payment();
   style();
+  document.getElementById("payment").options[1].selected = true; //sets credit card as default payment method
+  paymentFieldset.appendChild(cc); //this sets cc option as default if nother else selected (for onload,
+      document.getElementById("exp-month").classList.toggle("styled-select");
+      document.getElementById("exp-year").classList.toggle("styled-select");
 };
 
 document.getElementById("title").addEventListener("change", titleOther);
@@ -243,6 +411,10 @@ document.getElementsByTagName("button")[0].addEventListener("click", register, f
 //this needs to be moved up once completed.
 function register() { //this functions will start validation once button is pressed
     console.log("Register!");
+    validate();
+    //email();
+    //validateTshirt();
+    //valActivity();
 }
 
 //getElementsByTagName needs array notation to access elements.
