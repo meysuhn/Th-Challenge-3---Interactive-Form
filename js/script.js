@@ -6,43 +6,48 @@
 
 var newTotal = 0; //for runningTotal function. Holds the HTML string to display to page.
 
-//below variables belong to payment function
-var cc = document.getElementById("credit-card");
-var paypal = document.getElementById("credit-card").nextElementSibling;
-var bitcoin = paypal.nextElementSibling; //this seems brittle, but it works so leave for the time being
-var paymentFieldset = document.getElementsByTagName("fieldset")[3]; //stores fieldset of payment section
+//The below 4 variables belong to payment function
+var cc = document.getElementById("credit-card"); //holds the credit-card div
+var paypal = document.getElementById("credit-card").nextElementSibling; //holds the paypal div
+var bitcoin = paypal.nextElementSibling; //holds the bitcoin div.
+    //above two variables are perhaps brittle, but they works so leave for the time being.
+var paymentFieldset = document.getElementsByTagName("fieldset")[3]; //stores whole fieldset of payment section
 
 ///////////////////
 // FUNCTIONS
 ///////////////////
-function focus () { //Sets focus on the first text field on page load.
-    document.getElementById("name").focus();
+
+function focus () {
+    document.getElementById("name").focus(); //Sets focus on the first text field on page load.
 }
 
 
-function titleOther() { //
-    var e = document.getElementById("title");
-    var titleSelection = e.options[e.selectedIndex].value; //get the value of selected index
+function titleOther() { // Job Role. If user selects 'other' insert input element
+    var titleSelect = document.getElementById("title"); //get title select element
+    var titleValue = titleSelect.options[titleSelect.selectedIndex].value; //get the value of selected index
 
-    if(document.getElementById("other-title")) //if other input is present then remove
-        //this works onload to remove for those who have javascript enabled
-        { var elem = document.getElementById("other-title");
-        elem.remove(); //remove 'other' input if present
+    if(document.getElementById("other-title")) { //test if 'other' input already present
+        //this works onload to remove for those who have javascript enabled (element already hard-coded into HTML)
+        var otherInput = document.getElementById("other-title");
+        otherInput.remove(); //if 'other' element is present then remove.
         }
 
-    if (titleSelection === "other") { //if 'other' is selected then provide text input for user.
-        (function (){ //nested anonymous function. This adds in input element.
-                    var form = document.getElementsByTagName("fieldset")[0]; //Getting the first fieldset (index 0)
-                    var input = document.createElement("input"); //create input element
-                        input.type = "text"; //set input attribute
-                        input.placeholder = "Your Title..."; //add placeholder attribute
-                        input.id = "other-title"; //add id to input element
-                        form.appendChild(input); //append the newly formed input variable to the form variable holding the first fieldset.
-                    }
-)();
-}
+    if (titleValue === "other") { //if 'other' is selected then provide text input for user.
+        var titleFieldset = document.getElementsByTagName("fieldset")[0]; //Get the first form fieldset (index 0)
+        var otherInputEl = document.createElement("input"); //create input element
+        otherInputEl.type = "text"; //set input type attribute
+        otherInputEl.placeholder = "Your Title..."; //add placeholder attribute
+        otherInputEl.id = "other-title"; //add id to input element
+        titleFieldset.appendChild(otherInputEl); //append the newly formed input variable to the form variable holding the first fieldset.
+        }
 }
 
+
+
+//(function (){ //nested anonymous function.
+    //executable content goes here
+//)();
+//}
 
 //need to add comments to this function
 
@@ -346,7 +351,7 @@ function valid_credit_card() { //used to be valid_credit_card(value). I avoided 
         ccMessage.style.color= '#8B0000';
         // return false;
     }
-	//Luhn Algorithm. 
+	//Luhn Algorithm.
 	var nCheck = 0, nDigit = 0, bEven = false; //a series of storage variables
 	ccValue = ccValue.replace(/\D/g, "");
 
