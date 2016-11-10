@@ -51,11 +51,12 @@ function titleOther() { // Job Role. If user selects 'other' insert input elemen
 
 //need to add comments to this function
 
-function tShirt() { //T-shirt info tasks
+function tShirt() { //hides and displays colours and colour menu depending on design selection.
 
-    var e = document.getElementById("design");
-    var theme = e.options[e.selectedIndex].text;
+    var designMenu = document.getElementById("design"); //select design menu
+    var designTheme = designMenu.options[designMenu.selectedIndex].text; //get text of whichever design option is selected
 
+    //6 lines below reset all colour options to displayed (not hidden) in order for following code to work.
     document.getElementById("color").options[0].hidden = false;
     document.getElementById("color").options[1].hidden = false;
     document.getElementById("color").options[2].hidden = false;
@@ -63,75 +64,70 @@ function tShirt() { //T-shirt info tasks
     document.getElementById("color").options[4].hidden = false;
     document.getElementById("color").options[5].hidden = false;
 
-        if (theme === "Select Theme")
+        if (designTheme === "Select Theme") //hides colours menu if no theme is selected. Runs on load too.
             {
-            document.getElementById("colors-js-puns").style.visibility = "hidden";
+            document.getElementById("colors-js-puns").style.visibility = "hidden"; //hides colour menu
             }
-        else if (theme === "Theme - JS Puns") {
-            console.log("Puns has fired");
-            document.getElementById("colors-js-puns").style.visibility = "visible";
-            document.getElementById("color").options[3].hidden = true;
-            document.getElementById("color").options[4].hidden = true;
-            document.getElementById("color").options[5].hidden = true;
+        else if (designTheme === "Theme - JS Puns") { //if puns theme selected then display eligible colours
+            document.getElementById("colors-js-puns").style.visibility = "visible"; //displays colours menu
+            document.getElementById("color").options[3].hidden = true; //disable ineligible colour for this design
+            document.getElementById("color").options[4].hidden = true; //disable ineligible colour for this design
+            document.getElementById("color").options[5].hidden = true; //disable ineligible colour for this design
 
-        } else if (theme === "Theme - I ♥ JS"){
-            console.log("Heart has fired");
-            document.getElementById("colors-js-puns").style.visibility = "visible";
-            document.getElementById("color").options[3].selected = true;
-            document.getElementById("color").options[0].hidden = true;
-            document.getElementById("color").options[1].hidden = true;
-            document.getElementById("color").options[2].hidden = true;
+        } else if (designTheme === "Theme - I ♥ JS"){ //if heart theme selected then display eligible colours
+            document.getElementById("colors-js-puns").style.visibility = "visible"; //displays colours menu
+
+            document.getElementById("color").options[3].selected = true; //overwrites default to prevent cornflower colour being displayed on heart design selection.
+            document.getElementById("color").options[0].hidden = true; //disable ineligible colour for this design
+            document.getElementById("color").options[1].hidden = true; //disable ineligible colour for this design
+            document.getElementById("color").options[2].hidden = true; //disable ineligible colour for this design
 
         }
 
 }
 
-//add more comments to this function
+
 function activities (){ //this function disables and greys out clashing workshops
-    var activities = document.querySelector('.activities').getElementsByTagName('label');
-    var length = activities.length;
-    for (var i =0; i<length; i+=1) { //add an id to each of the workshops
-        activities[i].id = "boxId" + i;
+    var activityLabels = document.querySelector('.activities').getElementsByTagName('label'); //get labels of activity class.
+    var length = activityLabels.length; //length of activities (how many labels/workshops)
+    for (var i =0; i<length; i+=1) { //add an id to each of the labels/workshops
+        activityLabels[i].id = "boxId" + i;
         }
 
-    var clash1a = document.getElementById('boxId1').firstChild;
-        if (clash1a.checked) {
-        document.getElementById('boxId3').style.color= "grey";
-        document.getElementById('boxId3').firstChild.disabled = true;
-        console.log("please!");
-        } else {
-        document.getElementById('boxId3').firstChild.disabled = false;
-        document.getElementById('boxId3').style.color= "black";
+    var clash1a = document.getElementById('boxId1').firstChild; //get the first child (the checkbox itself)
+        if (clash1a.checked) { //test if checked
+        document.getElementById('boxId3').style.color= "grey"; //grey out clashing workshop
+        document.getElementById('boxId3').firstChild.disabled = true; //disable checkbox of clashing workshop
+    } else { //if 1a not checked then re-enable clashing workshop
+        document.getElementById('boxId3').firstChild.disabled = false; //enable checkbox
+        document.getElementById('boxId3').style.color= "black"; //return text to black
         }
 
-    var clash1b = document.getElementById('boxId3').firstChild;
-        if (clash1b.checked) {
-        document.getElementById('boxId1').style.color= "grey";
-        document.getElementById('boxId1').firstChild.disabled = true;
-        console.log("please!");
-        } else {
-        document.getElementById('boxId1').firstChild.disabled = false;
-        document.getElementById('boxId1').style.color= "black";
+    var clash1b = document.getElementById('boxId3').firstChild; //get the first child (the checkbox itself)
+        if (clash1b.checked) { //test if checked
+        document.getElementById('boxId1').style.color= "grey"; //grey out clashing workshop
+        document.getElementById('boxId1').firstChild.disabled = true; //disable checkbox of clashing workshop
+    } else { //if 1b not checked then re-enable clashing workshop
+        document.getElementById('boxId1').firstChild.disabled = false; //enable checkbox
+        document.getElementById('boxId1').style.color= "black"; //return text to black
         }
 
-    var clash2a = document.getElementById('boxId2').firstChild;
-         if (clash2a.checked) {
-         document.getElementById('boxId4').style.color= "grey";
-         document.getElementById('boxId4').firstChild.disabled = true;
-         console.log("please2!");
-        } else {
-        document.getElementById('boxId4').firstChild.disabled = false;
-        document.getElementById('boxId4').style.color= "black";
+    var clash2a = document.getElementById('boxId2').firstChild; //get the first child (the checkbox itself)
+         if (clash2a.checked) { //test if checked
+         document.getElementById('boxId4').style.color= "grey"; //grey out clashing workshop
+         document.getElementById('boxId4').firstChild.disabled = true; //disable checkbox of clashing workshop
+     } else { //if 2a not checked then re-enable clashing workshop
+        document.getElementById('boxId4').firstChild.disabled = false; //enable checkbox
+        document.getElementById('boxId4').style.color= "black"; //return text to black
         }
 
-    var clash2b = document.getElementById('boxId4').firstChild;
-        if (clash2b.checked) {
-        document.getElementById('boxId2').style.color= "grey";
-        document.getElementById('boxId2').firstChild.disabled = true;
-        console.log("please2!");
-        } else {
-        document.getElementById('boxId2').firstChild.disabled = false;
-        document.getElementById('boxId2').style.color= "black";
+    var clash2b = document.getElementById('boxId4').firstChild; //get the first child (the checkbox itself)
+        if (clash2b.checked) { //test if checked
+        document.getElementById('boxId2').style.color= "grey"; //grey out clashing workshop
+        document.getElementById('boxId2').firstChild.disabled = true; //disable checkbox of clashing workshop
+    } else { //if 2b not checked then re-enable clashing workshop
+        document.getElementById('boxId2').firstChild.disabled = false; //enable checkbox
+        document.getElementById('boxId2').style.color= "black"; //return text to black
         }
 }
 
