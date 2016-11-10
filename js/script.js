@@ -68,17 +68,16 @@ function tShirt() { //hides and displays colours and colour menu depending on de
     document.getElementById("color").options[3].hidden = false;
     document.getElementById("color").options[4].hidden = false;
     document.getElementById("color").options[5].hidden = false;
-
         if (designTheme === "Select Theme") //hides colours menu if no theme is selected. Runs on load too.
             {
             document.getElementById("colors-js-puns").style.visibility = "hidden"; //hides colour menu
             }
         else if (designTheme === "Theme - JS Puns") { //if puns theme selected then display eligible colours
             document.getElementById("colors-js-puns").style.visibility = "visible"; //displays colours menu
+            document.getElementById("color").options[0].selected = true; //overwrites default to prevent cornflower colour being displayed on heart design selection.
             document.getElementById("color").options[3].hidden = true; //disable ineligible colour for this design
             document.getElementById("color").options[4].hidden = true; //disable ineligible colour for this design
             document.getElementById("color").options[5].hidden = true; //disable ineligible colour for this design
-
         } else if (designTheme === "Theme - I ♥ JS"){ //if heart theme selected then display eligible colours
             document.getElementById("colors-js-puns").style.visibility = "visible"; //displays colours menu
 
@@ -147,8 +146,8 @@ function runningTotal() { //calculates the running total based on activity works
         var temp = document.getElementById("boxId" + i).firstChild; //store the checkbox in a temporary variable
         if (temp.checked) { //if checkbox is checked do the following:
             var a = document.getElementById("boxId" + i).textContent; //take the text value
-            var numb = a.match(/\$(\d+)/); //access the number (Regex) after the dollar sign in the string
-            var numb1 = (numb[1]); //WHAT DOES THIS DO AGAIN?
+            var numb = a.match(/\$(\d+)/); //access the number (Regex) after the dollar sign in the string. Stored as an array.
+            var numb1 = (numb[1]); //Get the item at index 1 (the number value)
             var newNumber = parseInt(numb1, 10); //converts string to number at base 10.
             newTotal = newTotal + newNumber; //adds newNumber to the overall total
         }
@@ -199,6 +198,8 @@ function disableBubbles() {
 
 
 //MAKE EACH OF THESE SELF EXECUTING WITHIN THE VALIDATE FUNCTION?
+
+//run this / these on key press.
 
 function validate() {
     disableBubbles(); //disable the broswer's default error bubbles
@@ -292,32 +293,25 @@ function validate() {
 //add an onchange to above so that message returns to black after user selects credit card?
 
 
-    //CREDIT CARD VALIDATOR
-    var e = document.getElementById("payment");
-    var paymentType = e.options[e.selectedIndex].text;
-        if (paymentType === "Credit Card") {
-            //console.log("Val val val");
-            var cardInput = document.getElementById("cc-numInput");
-                if(cardInput.validity.valid === false) {
-                var cardMessage = document.getElementById("cc-num"); //THIS ID HAS BEEN HARDCODED IN. FIX.
-                //document.getElementsByTagName("fieldset")[3].childNodes[9];
-                cardMessage.style.color= '#8B0000';
-        }
+
 
     //ZIP CODE VALIDATOR
+    if (document.getElementById("zip")) {
     var zipCodeInput = document.getElementById("zip");
     var zipMessage = document.getElementById("zipCodeLabel"); //THIS ID HAS BEEN HARDCODED IN. FIX.
-        if(zipCodeInput.validity.valid === false) {
+        if ((document.getElementById("cvv")) && (zipCodeInput.validity.valid === false)) {
         zipMessage.style.color= '#8B0000';
     }  else {
         zipMessage.style.color= '#000000'; //resets colour to black if zip code entered.
     }
+}
     //CVV VALIDATOR
+    if (document.getElementById("cvv")) {
     var cvvInput = document.getElementById("cvv");
     var cvvMessage = document.getElementById("cvvLabel"); //THIS ID HAS BEEN HARDCODED IN. FIX.
     var validCvv = /[0-9]{3}/.test(cvvInput.value); //regex test checks to see if content is made up of numbers of length 3.
 
-    if(cvvInput.validity.valid === false) {
+    if ((document.getElementById("cvv")) && (cvvInput.validity.valid === false)) {
         cvvMessage.textContent= "Enter CVV:";
         cvvMessage.style.color= '#8B0000';
         //console.log("No text entered");
@@ -330,20 +324,35 @@ function validate() {
         //console.log("Valid CVV");
         cvvMessage.style.color= '#000000'; //resets colour to black if zip code entered.
     }
-
 }
+
 valid_credit_card();
 } //end of function
 
+//CREDIT CARD VALIDATOR
+
+var e = document.getElementById("payment");
+var paymentType = e.options[e.selectedIndex].text;
+    if (paymentType === "Credit Card") {
+        //console.log("Val val val");
+        var cardInput = document.getElementById("cc-numInput");
+            if(cardInput.validity.valid === false) {
+            var cardMessage = document.getElementById("cc-num"); //THIS ID HAS BEEN HARDCODED IN. FIX.
+            //document.getElementsByTagName("fieldset")[3].childNodes[9];
+            cardMessage.style.color= '#8B0000';
+    }
+}
+
 // takes the form field value and returns true on valid number
 function valid_credit_card() { //used to be valid_credit_card(value). I avoided using arguments here but need to understand this better to improve my code.
-
+    disableBubbles(); //disable the broswer's default error bubbles
+    if (document.getElementById("credit-card")) {
     var cardInput1 = document.getElementById("cc-numInput");
     var ccValue = cardInput1.value;
     var ccMessage = document.getElementById("cc-num"); //THIS ID HAS BEEN HARDCODED IN. FIX.
-    console.log(ccValue);
+    //console.log(ccValue);
   // accept only digits, dashes or spaces
-	if (/[^0-9-\s]+/.test(ccValue)) {
+	if (/[^0-9-\s]+/.test(ccValue)) { // || (cardInput1.validity.valid === false)){
         console.log("Invalid Card Number");
         ccMessage.textContent= "Invalid Card Number:";
         ccMessage.style.color= '#8B0000';
@@ -374,7 +383,7 @@ function valid_credit_card() { //used to be valid_credit_card(value). I avoided 
     }
 
 }
-
+}
 
 
 function style() { //This function styles the select drop-down menus
