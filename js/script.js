@@ -13,9 +13,10 @@ var bitcoin = paypal.nextElementSibling; //holds the bitcoin div.
     //above two variables are perhaps brittle, but they works so leave for the time being.
 var paymentFieldset = document.getElementsByTagName("fieldset")[3]; //stores whole fieldset of payment section
 
-//the below 2 variables belong to the activity & runningTotal functions
+//the below 2 variables belong to the activity, runningTotal & activity validity functions
 var activityLabels = document.querySelector('.activities').getElementsByTagName('label'); //get labels of activity class.
 var activityLength = activityLabels.length; //length of activities (how many labels/workshops)
+
 
 ///////////////////
 // FUNCTIONS
@@ -204,79 +205,94 @@ function validate() {
 
     //NAME INPUT VALIDATOR
     var nameInput = document.getElementById("name"); //get the name input
+    var nameError = document.getElementsByTagName("fieldset")[0].childNodes[3]; //Access name label (3rd childnode of 1st fieldset)
     if(nameInput.validity.valid === false) { //if input is empty (not valid)
-        var nameError = document.getElementsByTagName("fieldset")[0].childNodes[3]; //Access name label (3rd childnode of 1st fieldset)
         nameError.style.color= '#8B0000'; //set error colour
         nameError.textContent= "Name: (please provide your name)"; //set error message
+    } else {
+        nameError.style.color= '#000000'; //set error colour
+        nameError.textContent= "Name:"; //set error message
+
     }
 
 
     //EMAIL INPUT VALIDATOR
     var emailInput = document.getElementById("mail"); //get email input
-    var validEmail = /[^@]+@[^@]+/.test(emailInput.value); //Regex test ofr correct email format
+    var newEmail = document.getElementsByTagName("fieldset")[0].childNodes[9]; //access email label
+    var validEmail = /[^@]+@[^@]+/.test(emailInput.value); //Regex test for correct email format
     if(!validEmail) { //if email is not valid...(returns 'false')
-        var newEmail = document.getElementsByTagName("fieldset")[0].childNodes[9]; //access email label
         newEmail.style.color= '#8B0000'; //set error colour
         newEmail.textContent= "Email: (please provide a valid email address)"; //set error message
+    } else {
+        newEmail.style.color= '#000000'; //set error colour
+        newEmail.textContent= "Email:"; //set error message
     }
 
     //T-SHIRT VALIDATOR
     var designSelectMenu = document.getElementById("design"); //get design select element
     var designValue = designSelectMenu.options[designSelectMenu.selectedIndex].value; //get selected value
+    var tshirtLegend = document.getElementById("shirtError"); //access t-shirt fieldset legend
+    if (document.getElementById("tshirtErrorMessage")) { //checks to see if id/element exists
+            var elem1 = document.getElementById("tshirtErrorMessage"); //if it does exist, get it and...
+            elem1.remove(); } //... remove it
     if (designValue == "Select Theme") { // test to see if matches "Select Theme" i.e. no design selected, and if so, inserts t-shirt error message:
-         var tshirtLegend = document.getElementById("shirtError"); //access t-shirt fieldset legend
-         tshirtLegend.insertAdjacentHTML('beforebegin', '<p id="one">Don\'t forget to pick a T-Shirt</p>'); //insert error message
-         var tshirtErrorColour = document.getElementById("one"); //access newly created error element
+         tshirtLegend.insertAdjacentHTML('beforebegin', '<p id="tshirtErrorMessage">Don\'t forget to pick a T-Shirt</p>'); //insert error message
+         var tshirtErrorColour = document.getElementById("tshirtErrorMessage"); //access newly created error element
          tshirtErrorColour.style.color = '#8B0000'; //set error colour
+     } else if (document.getElementById("tshirtErrorMessage")) { //checks to see if id/element exists
+             var elem4 = document.getElementById("tshirtErrorMessage"); //if it does exist, get it and...
+             elem4.remove(); //... remove it
+     }
 
+
+     //ACTIVITY VALIDITOR
+    if (document.getElementById("activityErrorMessage")) { //checks to see if id/element exists
+        var elem5 = document.getElementById("activityErrorMessage"); //if it does exist, get it and...
+        elem5.remove(); } //... remove it
+
+     for (var i =0; i<activityLength; i+=1) { //for each of the checkboxes do the following:
+     var checkbox = document.getElementById('boxId' + i).firstChild; // access checkbox of each element
+     var checkboxResult = checkbox.checked; //stored the boolean value
+     //console.log(i);
+     if (checkboxResult === true) { //if any checkbox is checked (true) then break the loop
+         break;
+     }
+     }
+     if (i === 7) { //if i = 7 it means all checkboxes are unchecked, in which case insert error
+         var activityLegend = document.getElementById("actError"); //select activity legend
+         activityLegend.insertAdjacentHTML('beforebegin', '<p id="activityErrorMessage">Please select an Activity</p>'); //insert error message
+         var newcolour = document.getElementById("activityErrorMessage"); //access newly created error element
+         newcolour.style.color = '#8B0000'; //set error colour
+
+     } else { //if i is not 7 then at least one checkbox is checked. Remove any existing error message.
+         if (document.getElementById("activityErrorMessage")) { //checks to see if id/element exists
+             var elem6 = document.getElementById("activityErrorMessage"); //if it does exist, get it and...
+             elem6.remove(); } //... remove it
+             }
+
+
+
+
+    //PAYMENT TYPE VALIDATOR
+     var paymentSelectMenu = document.getElementById("payment"); //get payment method select menu
+     var paymentMethodValue = paymentSelectMenu.options[paymentSelectMenu.selectedIndex].value; //get value of selected method
+     if (paymentMethodValue == "select_method") //test to see if matches "select_method"
+     {
+     var paymentError = document.getElementsByTagName("fieldset")[3].childNodes[3]; //access ui (user interface) text
+     paymentError.style.color= '#8B0000'; //set error colour
+     paymentError.textContent= "Payment (please select a payment method:)"; //alter ui text
+ } else { //return to original ui text
+     var paymentMessage = document.getElementsByTagName("fieldset")[3].childNodes[3]; //access ui text
+     paymentMessage.style.color= 'black'; //return colour to black
+     paymentMessage.textContent= "I'm going to pay with:"; //return ui text to original
     }
 
-    var d1 = document.getElementById("actError");
-    d1.insertAdjacentHTML('beforebegin', '<p id="two">Please select an Activity</p>');
-    var newcolour = document.getElementById("two");
-    newcolour.style.color = '#8B0000';
 
-    //ACTIVITY VALIDITOR
-    var activities = document.querySelector('.activities').getElementsByTagName('label');
-    var length = activities.length;
-    var okay=false;
-
-    for (var i =0; i<length; i+=1) { //add an id to each of the workshops
-    var checkbox = document.getElementById('boxId' + i).firstChild;
-        if (checkbox.checked) {
-            okay=true;
-            break;
-        }
-    else {
-        console.log("Please check a checkbox");
-        var d1 = document.getElementById("actError");
-        d1.insertAdjacentHTML('beforebegin', '<p id="two">Please select an Activity</p>');
-        var newcolour = document.getElementById("two");
-        newcolour.style.color = '#8B0000';
-        break;
-}
-}
-
-//PAYMENT TYPE VALIDATOR
- var payment = document.getElementById("payment");
- var selectedValue = payment.options[payment.selectedIndex].value;
- if (selectedValue == "select_method")
- {
- var paymentError = document.getElementsByTagName("fieldset")[3].childNodes[3];
- paymentError.style.color= '#8B0000';
- paymentError.textContent= "Payment (please select a payment method:)";
-} else {
- var paymentMessage = document.getElementsByTagName("fieldset")[3].childNodes[3];
- paymentMessage.style.color= 'black';
- paymentMessage.textContent= "I'm going to pay with:";
-}
-
-
+//DO THIS
 //add an onchange to above so that message returns to black after user selects credit card?
 
 
     //CREDIT CARD VALIDATOR
-//to test if credit card option elected see the method somewhere above. there is a test for presence of html somewhere there.
     var e = document.getElementById("payment");
     var paymentType = e.options[e.selectedIndex].text;
         if (paymentType === "Credit Card") {
@@ -287,9 +303,6 @@ function validate() {
                 //document.getElementsByTagName("fieldset")[3].childNodes[9];
                 cardMessage.style.color= '#8B0000';
         }
-
-
-
 
     //ZIP CODE VALIDATOR
     var zipCodeInput = document.getElementById("zip");
@@ -307,14 +320,14 @@ function validate() {
     if(cvvInput.validity.valid === false) {
         cvvMessage.textContent= "Enter CVV:";
         cvvMessage.style.color= '#8B0000';
-        console.log("No text entered");
+        //console.log("No text entered");
     } else if (!validCvv) {
         cvvMessage.textContent= "CVV (3 digits):";
-        console.log("not a valid cvv");
+        //console.log("not a valid cvv");
         cvvMessage.style.color= '#8B0000';
     } else {
         cvvMessage.textContent= "CVV:";
-        console.log("Valid CVV");
+        //console.log("Valid CVV");
         cvvMessage.style.color= '#000000'; //resets colour to black if zip code entered.
     }
 
@@ -400,6 +413,6 @@ document.getElementsByTagName("button")[0].addEventListener("click", register, f
 
 //this needs to be moved up once completed.
 function register() { //this functions will start validation once button is pressed
-    console.log("Register!");
+    //console.log("Register!");
     validate();
 }
