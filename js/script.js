@@ -341,7 +341,9 @@ function valid_credit_card() {
 
     var oddIndexNumbers =[];
     var evenIndexNumbers =[];
+    var evenIndexNumbers2 = [];
     var oddSum = 0;
+    var evenSum = 0;
 
     var paymentMenu = document.getElementById("payment"); //select payment menu options
     var paymentType = paymentMenu.options[paymentMenu.selectedIndex].text; //get selected option
@@ -378,46 +380,67 @@ function valid_credit_card() {
                         for(var iEven = 1; iEven < reversedInput.length; iEven += 2) {  // take every second element
                         evenIndexNumbers.push(reversedInput[iEven]); //push each evenly indexed number to the new variable array
                         }
-                        console.log(evenIndexNumbers);
+                        console.log("Complicated array: " +evenIndexNumbers);
 
 
                         //Sum the odd indexed digits:
-                         for(var p = 0; p < oddIndexNumbers.length; p += 1) {  //loop through oddIndexNumbers
-                              var convert = parseInt(oddIndexNumbers[p]); //convert each item to an integer
-                              oddSum += convert; // tota each array item
+                         for(var i1 = 0; i1 < oddIndexNumbers.length; i1 += 1) {  //loop through oddIndexNumbers
+                              var convertOdd = parseInt(oddIndexNumbers[i1]); //convert each item to an integer
+                              oddSum += convertOdd; // tota each array item
                           }
                           //s1 = oddsum in your work
 
-                        // Take the even indexed digits:
-                                    //1,  8,  3,  2,  9
-                                // multiply each by two
-                                    //2, 16,  6,  4, 18
-                                    /*
-                                        var ar = [1, 2, 3, 4, 5];
-                                        for (var i=0, len=ar.length; i<len; i++) {
-                                            ar[i] *= 2; // multiply value times 2
-                                        }
-                                        console.log( ar ); // [2, 4, 6, 8, 10]
-                                        */
+                        // Take the even indexed digits & multiply each by two
+                        for (var i2=0; i2<evenIndexNumbers.length; i2++) { //loop through evenIndexNumbers
+                            evenIndexNumbers[i2] *= 2; // multiply each value times 2
+                        }
+                        console.log(evenIndexNumbers);
 
-                                    //Sum the digits of each multiplication:
-                                    // if a digit is made up of two numbers, add these together
-                                        //2,  7 (this is 1 + 6),  6,  4,  9 (this is 1+ 9)
-                                            //Sum the last:
-                                                //2 + 7 + 6 + 4 + 9 = 28 = s2
+                        //Sum the digits of each multiplication. (if a digit is made up of two numbers, add these together)
+                        for (var i3=0; i3<evenIndexNumbers.length; i3++) { //loop through evenIndexNumbers
+                            var num = evenIndexNumbers[i3].toString(); //convert each item back to a string
+                            //console.log(num);
+                            var digitSplit = (num + '').split(''); //split each item
+                            //console.log("Digit Split 1: " + digitSplit);
 
-                        //s1 + s2 = 70 which ends in zero which means that 49927398716 passes the Luhn test
+                            if (digitSplit.length === 2) { //if there are two digits (i.e. if was greater than 10)
+                                addSplits = parseInt(digitSplit[0]) + parseInt(digitSplit[1]);
+                                evenIndexNumbers2.push(addSplits);
+                            } else {
+                                singleCharToConvert = parseInt(digitSplit); //convert single characters/digits back to a number
+                            evenIndexNumbers2.push(singleCharToConvert); //push onto array
+                            }
+                        }
+                        console.log(evenIndexNumbers2);
+
+                        //Sum the even indexed digits:
+                         for(var i4 = 0; i4 < evenIndexNumbers2.length; i4 += 1) {  //loop through oddIndexNumbers
+                              var convertEven = parseInt(evenIndexNumbers2[i4]); //convert each item to an integer
+                              evenSum += convertEven; // total each array item
+                          }
+                          console.log(evenSum);
+                          console.log(oddSum);
+                          var luhnResult = evenSum + oddSum;
+                          console.log(luhnResult);
+                          var test=107;
+                         var isEndsWithZero =luhnResult%10;
+                         if(isEndsWithZero!==0) {
+                             console.log("Fail!");
+                         } else {
+                             console.log("Pass!");
+                         }
 
 
-                    }
+
+                    } // this closes the huge luhn else condition
 
                         //if so, then run remainder of luhn formula
                     //else throw error message
 
-        } else {
+        } //else {
             //remove any error message here if present.
 
-        }
+
 
 }
 
