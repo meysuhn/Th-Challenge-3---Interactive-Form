@@ -297,36 +297,8 @@ function validate() {
 
 
 
-    //ZIP CODE VALIDATOR
-    if (document.getElementById("zip")) {
-    var zipCodeInput = document.getElementById("zip");
-    var zipMessage = document.getElementById("zipCodeLabel"); //THIS ID HAS BEEN HARDCODED IN. FIX.
-        if ((document.getElementById("cvv")) && (zipCodeInput.validity.valid === false)) {
-        zipMessage.style.color= '#8B0000';
-    }  else {
-        zipMessage.style.color= '#000000'; //resets colour to black if zip code entered.
-    }
-}
-    //CVV VALIDATOR
-    if (document.getElementById("cvv")) {
-    var cvvInput = document.getElementById("cvv");
-    var cvvMessage = document.getElementById("cvvLabel"); //THIS ID HAS BEEN HARDCODED IN. FIX.
-    var validCvv = /[0-9]{3}/.test(cvvInput.value); //regex test checks to see if content is made up of numbers of length 3.
 
-    if ((document.getElementById("cvv")) && (cvvInput.validity.valid === false)) {
-        cvvMessage.textContent= "Enter CVV:";
-        cvvMessage.style.color= '#8B0000';
-        //console.log("No text entered");
-    } else if (!validCvv) {
-        cvvMessage.textContent= "CVV (3 digits):";
-        //console.log("not a valid cvv");
-        cvvMessage.style.color= '#8B0000';
-    } else {
-        cvvMessage.textContent= "CVV:";
-        //console.log("Valid CVV");
-        cvvMessage.style.color= '#000000'; //resets colour to black if zip code entered.
-    }
-}
+
 
 } //end of function
 
@@ -337,6 +309,7 @@ function validate() {
 
 
 function valid_credit_card() { //fires when register clicked
+    disableBubbles();
 
     var oddIndexNumbers =[]; //holds the oddly indexed numbers from card number
     var evenIndexNumbers =[]; //holds the evenly indexed numbers from card number
@@ -430,7 +403,44 @@ function valid_credit_card() { //fires when register clicked
                          }
                     } // this closes the huge luhn else condition
         }
+
+
+
+
+    //CVV VALIDATOR
+    if (document.getElementById("cvv")) {
+    var cvvInput = document.getElementById("cvv");
+    var cvvInputValue = cvvInput.value; // get the content of the input element
+    var cvvMessage = document.getElementById("cvvLabel"); //THIS ID HAS BEEN HARDCODED IN. FIX.
+    var validCvv = /[0-9]{3}/.test(cvvInput.value); //regex test checks to see if content is made up of numbers of length 3.
+    console.log(cvvInput.length);
+    if ((document.getElementById("cvv")) && (cvvInputValue.length === 0)) {
+        cvvMessage.textContent= "Enter CVV:"; //advise user to insert a CVV
+        cvvMessage.style.color= '#8B0000'; //change text to red to indicate error
+    } else if (!validCvv) {
+        cvvMessage.textContent= "CVV (3 digits):"; //error to indicate invalid cv
+        cvvMessage.style.color= '#8B0000'; //change text to red to indicate error
+    } else {
+        cvvMessage.textContent= "CVV:"; //reset message to original
+        cvvMessage.style.color= '#000000'; //resets colour to black if zip code entered.
     }
+    }
+
+    //ZIP CODE VALIDATOR
+    if (document.getElementById("zip")) {
+    var zipCodeInput = document.getElementById("zip"); //get zip input element
+    var zipCodeInputValue = zipCodeInput.value; // get the content of the input element
+    var zipMessage = document.getElementById("zipCodeLabel"); //for altering the text
+    console.log(zipCodeInputValue.length);
+        if (zipCodeInputValue.length === 0) { // if length is zero it means there is no text
+        zipMessage.style.color= '#8B0000'; //change text to red to indicate error
+        console.log("zip error");
+    }  else {
+        zipMessage.style.color= '#000000'; //resets colour to black if zip code entered.
+        console.log("zip OK");
+    }
+}
+}
 
 
 function style() { //This function styles the select drop-down menus
