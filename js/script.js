@@ -328,7 +328,6 @@ function validate() {
     }
 }
 
-valid_credit_card();
 } //end of function
 
 //CREDIT CARD VALIDATOR
@@ -337,13 +336,13 @@ valid_credit_card();
 
 
 
-function valid_credit_card() {
+function valid_credit_card() { //fires when register clicked
 
-    var oddIndexNumbers =[];
-    var evenIndexNumbers =[];
-    var evenIndexNumbers2 = [];
-    var oddSum = 0;
-    var evenSum = 0;
+    var oddIndexNumbers =[]; //holds the oddly indexed numbers from card number
+    var evenIndexNumbers =[]; //holds the evenly indexed numbers from card number
+    var evenIndexNumbers2 = [];  //holds the altered even indexed numbers from card
+    var oddSum = 0; //holds sum value of all odd numbers
+    var evenSum = 0; //holds sum value of all even numbers
 
     var paymentMenu = document.getElementById("payment"); //select payment menu options
     var paymentType = paymentMenu.options[paymentMenu.selectedIndex].text; //get selected option
@@ -356,17 +355,16 @@ function valid_credit_card() {
                     var ccMessage = document.getElementById("cc-num"); //get ui text
                     console.log(cardInputValue);
                     console.log(cardInputValue.length);
-                	if ((/[^0-9-\s]+/.test(cardInputValue)) || (cardInputValue.length === 0)) { //test if contains only digits, dashes or spaces OR if input is empty (if length is zero)
+                	if ((/[^0-9-\s]+/.test(cardInputValue)) || (cardInputValue.length ===0)) { //test if contains only digits, dashes or spaces OR if input is empty (if empty zero is returned and Luhn test below sees this as passing...)
                         //this regex is actually testing if the card contains INVALID characters. This if clause will run if there IS an invalid character.
                         console.log("Number has FAILED initial validity test");
-                        ccMessage.textContent= "Not a valid card number:";
-                        ccMessage.style.color= '#8B0000';
+                        ccMessage.textContent= "Not a valid card number:"; //insert error message
+                        ccMessage.style.color= '#8B0000'; //set error colour
 
-                        //BUG the above lets through a card length of 1...after luhn is written rewrite the above.
                     } else {
                         console.log("PASSED initial validity test");
 
-                        var reversedInput =  cardInputValue.split("").reverse().join(""); // takes user input and reverses the digits
+                        var reversedInput =  cardInputValue.split("").reverse().join(""); // take user input and reverses the digits
                         console.log(reversedInput);
 
 
@@ -386,9 +384,8 @@ function valid_credit_card() {
                         //Sum the odd indexed digits:
                          for(var i1 = 0; i1 < oddIndexNumbers.length; i1 += 1) {  //loop through oddIndexNumbers
                               var convertOdd = parseInt(oddIndexNumbers[i1]); //convert each item to an integer
-                              oddSum += convertOdd; // tota each array item
+                              oddSum += convertOdd; // total each array item
                           }
-                          //s1 = oddsum in your work
 
                         // Take the even indexed digits & multiply each by two
                         for (var i2=0; i2<evenIndexNumbers.length; i2++) { //loop through evenIndexNumbers
@@ -401,11 +398,10 @@ function valid_credit_card() {
                             var num = evenIndexNumbers[i3].toString(); //convert each item back to a string
                             //console.log(num);
                             var digitSplit = (num + '').split(''); //split each item
-                            //console.log("Digit Split 1: " + digitSplit);
 
                             if (digitSplit.length === 2) { //if there are two digits (i.e. if was greater than 10)
-                                addSplits = parseInt(digitSplit[0]) + parseInt(digitSplit[1]);
-                                evenIndexNumbers2.push(addSplits);
+                                addSplits = parseInt(digitSplit[0]) + parseInt(digitSplit[1]); //convert each number to integer then add together
+                                evenIndexNumbers2.push(addSplits); //push to altered even array
                             } else {
                                 singleCharToConvert = parseInt(digitSplit); //convert single characters/digits back to a number
                             evenIndexNumbers2.push(singleCharToConvert); //push onto array
@@ -420,107 +416,22 @@ function valid_credit_card() {
                           }
                           console.log(evenSum);
                           console.log(oddSum);
-                          var luhnResult = evenSum + oddSum;
+                          var luhnResult = evenSum + oddSum; //altered even index numbers total plus odd index numbers total
                           console.log(luhnResult);
-                          var test=107;
-                         var isEndsWithZero =luhnResult%10;
-                         if(isEndsWithZero!==0) {
+                          var isEndsWithZero =luhnResult%10; //check is luhnResult ends in zero
+                          if(isEndsWithZero!==0) { //if doesn't end in zero, throw error message
                              console.log("Fail!");
+                             ccMessage.textContent= "Not a valid card number:"; //insert error message
+                             ccMessage.style.color= '#8B0000'; // //insert error colour
                          } else {
                              console.log("Pass!");
+                             ccMessage.textContent= "Card Number:"; //correct message
+                             ccMessage.style.color= '#000000'; //correct message colour to OK
                          }
-
-
-
                     } // this closes the huge luhn else condition
-
-                        //if so, then run remainder of luhn formula
-                    //else throw error message
-
-        } //else {
-            //remove any error message here if present.
-
-
-
-}
-
-
-/*
-// takes the form field value and returns true on valid number
-function valid_credit_card() {
-	//Luhn Algorithm.
-	var nCheck = 0, nDigit = 0, bEven = false; //a series of storage variables
-	ccValue = ccValue.replace(/\D/g, "");
-
-    for (var n = ccValue.length - 1; n >= 0; n--) {
-		var cDigit = ccValue.charAt(n),
-			  nDigit = parseInt(cDigit, 10);
-              //TESTING / REVERSE ENGINEERING
-              console.log(n);
-              console.log(cDigit);
-              console.log(nDigit);
-
-
-          if (bEven) {
-              console.log(bEven);
-  			if ((nDigit *= 2) > 9) nDigit -= 9;
-            console.log(nDigit);
-  		}
-
-        nCheck += nDigit;
-		bEven = !bEven;
-	}
-    var luhnResult = (nCheck % 10) === 0; //return
-    if (luhnResult === false) {
-        ccMessage.textContent= "Invalid Card Number:";
-        ccMessage.style.color= '#8B0000';
-    } else {
-        ccMessage.textContent= "Card Number:";
-        ccMessage.style.color= '#000000';
+        }
     }
 
-}
-}
-*/
-
-
-//Not required
-/*
-
-{ //used to be valid_credit_card(value). I avoided using arguments here but need to understand this better to improve my code.
-    //disableBubbles(); //disable the broswer's default error bubbles
-    if (document.getElementById("credit-card")) {
-    var cardInput1 = document.getElementById("cc-numInput");
-    var ccValue = cardInput1.value;
-    var ccMessage = document.getElementById("cc-num"); //THIS ID HAS BEEN HARDCODED IN. FIX.
-    //console.log(ccValue);
-  // accept only digits, dashes or spaces
-	if (/[^0-9-\s]+/.test(ccValue)) { // || (cardInput1.validity.valid === false)){
-        console.log("Invalid Card Number");
-        ccMessage.textContent= "Invalid Card Number:";
-        ccMessage.style.color= '#8B0000';
-        // return false;
-    }
-
-
-var e = document.getElementById("payment");
-var paymentType = e.options[e.selectedIndex].text;
-    if (paymentType === "Credit Card") {
-        //console.log("Val val val");
-        var cardInput = document.getElementById("cc-numInput");
-            if(cardInput.validity.valid === false) {
-            var cardMessage = document.getElementById("cc-num"); //THIS ID HAS BEEN HARDCODED IN. FIX.
-            //document.getElementsByTagName("fieldset")[3].childNodes[9];
-            cardMessage.style.color= '#8B0000';
-    }
-}
-
-
-//Step 2
-//if cedit card selected, test validity on the required attribute.
-//if not valid (no text) then throw error
-//Step 2 could be probably picked up by the luhn test so may be unneccesary. I'm going to skip Step 2
-*/
 
 function style() { //This function styles the select drop-down menus
     document.getElementById("title").classList.toggle("styled-select"); //add "styled select"
@@ -560,4 +471,5 @@ document.getElementsByTagName("button")[0].addEventListener("click", register, f
 function register() { //this functions will start validation once button is pressed
     //console.log("Register!");
     validate();
+    valid_credit_card();
 }
