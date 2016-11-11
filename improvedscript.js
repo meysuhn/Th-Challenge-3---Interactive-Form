@@ -291,6 +291,10 @@ function validate() {
     }
 
 
+
+
+
+
 //DO THIS
 //add an onchange to above so that message returns to black after user selects credit card?
 
