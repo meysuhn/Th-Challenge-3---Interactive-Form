@@ -156,7 +156,7 @@ button:hover {
 ==================================== */
 
 .styled-select select{
-  -webkit-appearance: none;
+  -webkit-appearance, -moz-appearance: none;
  }
 
 .styled-select {

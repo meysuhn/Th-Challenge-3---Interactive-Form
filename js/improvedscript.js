@@ -1,5 +1,6 @@
 
 
+
 ///////////////////
 // VARIABLES
 ///////////////////
@@ -22,9 +23,15 @@ var activityLength = activityLabels.length; //length of activities (how many lab
 // FUNCTIONS
 ///////////////////
 
-function ids () { //adds in all the IDs and tags
+function ids () { //adds in all the IDs and attribute for the script below
 
+var shirtErrorId = document.getElementsByTagName("fieldset")[1].childNodes[1];
+shirtErrorId.id = "shirtError";
 
+var actErrorId = document.getElementsByTagName("fieldset")[2].childNodes[1];
+actErrorId.id = "actError";
+
+document.getElementById("name").required = true; //adds required attribute for name input field
 
 }
 
@@ -213,7 +220,7 @@ function validate() {
 
     //EMAIL INPUT VALIDATOR
     var emailInput = document.getElementById("mail"); //get email input
-    var newEmail = document.getElementsByTagName("fieldset")[0].childNodes[9]; //access email label
+    var newEmail = document.getElementsByTagName("fieldset")[0].childNodes[7]; //access email label
     var validEmail = /[^@]+@[^@]+/.test(emailInput.value); //Regex test for correct email format
     if(!validEmail) { //if email is not valid...(returns 'false')
         newEmail.style.color= '#8B0000'; //set error colour
@@ -300,9 +307,9 @@ function valid_credit_card() { //fires when register clicked
             //console.log("cc selected");
 
                     //if credit card selected, take the input value and perform initial validity check
-                    var cardInput = document.getElementById("cc-numInput"); //get the input element
+                    var cardInput = document.getElementById("cc-num"); //get the input element
                     var cardInputValue = cardInput.value; //get and store the value (the user input)
-                    var ccMessage = document.getElementById("cc-num"); //get ui text
+                    var ccMessage = document.getElementById("cc-numLabel"); //get ui text
                     //console.log(cardInputValue);
                     //console.log(cardInputValue.length);
                 	if ((/[^0-9-\s]+/.test(cardInputValue)) || (cardInputValue.length ===0)) { //test if contains only digits, dashes or spaces OR if input is empty (if empty zero is returned and Luhn test below sees this as passing...)
@@ -448,6 +455,7 @@ function style() { //This function styles the select drop-down menus
 ///////////////////
 
 window.onload = function() { //onload run the following functions:
+  ids();
   focus();
   titleOther();
   tShirt();
