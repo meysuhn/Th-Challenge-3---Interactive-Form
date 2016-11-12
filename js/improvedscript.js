@@ -154,7 +154,7 @@ function runningTotal() { //calculates the running total based on activity works
     }
 
     if (newTotal !== 0) {  //only if newTotal is not zero (i.e. if at least one activity is selected) do the following:
-        runningTotalText = ("Total: $" + newTotal); // create text string with current number value
+        var runningTotalText = ("Total: $" + newTotal); // create text string with current number value
         var newPara = document.createElement("p"); //create new p element
         newPara.id = "total"; //asign id
         var newNode = document.createTextNode(runningTotalText); //add string to newNode
@@ -324,17 +324,17 @@ function valid_credit_card() { //fires when register clicked
     var paymentMenu = document.getElementById("payment"); //select payment menu options
     var paymentType = paymentMenu.options[paymentMenu.selectedIndex].text; //get selected option
         if (paymentType === "Credit Card") { // if selection = "Credit Card" run the Luhn test below.
-            console.log("cc selected");
+            //console.log("cc selected");
 
                     //if credit card selected, take the input value and perform initial validity check
                     var cardInput = document.getElementById("cc-numInput"); //get the input element
                     var cardInputValue = cardInput.value; //get and store the value (the user input)
                     var ccMessage = document.getElementById("cc-num"); //get ui text
-                    console.log(cardInputValue);
-                    console.log(cardInputValue.length);
+                    //console.log(cardInputValue);
+                    //console.log(cardInputValue.length);
                 	if ((/[^0-9-\s]+/.test(cardInputValue)) || (cardInputValue.length ===0)) { //test if contains only digits, dashes or spaces OR if input is empty (if empty zero is returned and Luhn test below sees this as passing...)
                         //this regex is actually testing if the card contains INVALID characters. This if clause will run if there IS an invalid character.
-                        console.log("Number has FAILED initial validity test");
+                        //console.log("Number has FAILED initial validity test");
                         ccMessage.textContent= "Not a valid card number:"; //insert error message
                         ccMessage.style.color= '#8B0000'; //set error colour
 
@@ -377,10 +377,10 @@ function valid_credit_card() { //fires when register clicked
                             var digitSplit = (num + '').split(''); //split each item
 
                             if (digitSplit.length === 2) { //if there are two digits (i.e. if was greater than 10)
-                                addSplits = parseInt(digitSplit[0]) + parseInt(digitSplit[1]); //convert each number to integer then add together
+                                var addSplits = parseInt(digitSplit[0]) + parseInt(digitSplit[1]); //convert each number to integer then add together
                                 evenIndexNumbers2.push(addSplits); //push to altered even array
                             } else {
-                                singleCharToConvert = parseInt(digitSplit); //convert single characters/digits back to a number
+                                var singleCharToConvert = parseInt(digitSplit); //convert single characters/digits back to a number
                             evenIndexNumbers2.push(singleCharToConvert); //push onto array
                             }
                         }
@@ -413,17 +413,32 @@ function valid_credit_card() { //fires when register clicked
 
     //CVV VALIDATOR
     if (document.getElementById("cvv")) {
+    var cvvMessage = document.getElementById("cvvLabel");
+    console.log(cvvMessage);
+
     var cvvInput = document.getElementById("cvv");
+    console.log("CVV Input Element" + cvvInput);
     var cvvInputValue = cvvInput.value; // get the content of the input element
-    var cvvMessage = document.getElementById("cvvLabel"); //THIS ID HAS BEEN HARDCODED IN. FIX.
-    var validCvv = /[0-9]{3}/.test(cvvInput.value); //regex test checks to see if content is made up of numbers of length 3.
-    console.log(cvvInput.length);
-    if ((document.getElementById("cvv")) && (cvvInputValue.length === 0)) {
+    console.log("Input value =" + cvvInputValue);
+    var numbersOnly = /^\d+$/.test(cvvInputValue); //regex test checks to see if content is made up of numbers only. Returns TRUE or FALSE
+
+    console.log("Is Valid CVV? " + numbersOnly);
+
+    console.log("CVV Length =" + cvvInputValue.length);
+
+    if (cvvInputValue.length === 0) {
         cvvMessage.textContent= "Enter CVV:"; //advise user to insert a CVV
         cvvMessage.style.color= '#8B0000'; //change text to red to indicate error
-    } else if (!validCvv) {
-        cvvMessage.textContent= "CVV (3 digits):"; //error to indicate invalid cv
+
+    } else if ((cvvInputValue.length < 3) || (cvvInputValue.length > 3)) {
+        cvvMessage.textContent= "CVV (3 Digits):"; //error to indicate invalid cv
         cvvMessage.style.color= '#8B0000'; //change text to red to indicate error
+
+    } else if (!numbersOnly) {
+        console.log("else if fired!");
+        cvvMessage.textContent= "CVV (0-9 only):"; //error to indicate invalid cv
+        cvvMessage.style.color= '#8B0000'; //change text to red to indicate error
+
     } else {
         cvvMessage.textContent= "CVV:"; //reset message to original
         cvvMessage.style.color= '#000000'; //resets colour to black if zip code entered.
@@ -435,13 +450,13 @@ function valid_credit_card() { //fires when register clicked
     var zipCodeInput = document.getElementById("zip"); //get zip input element
     var zipCodeInputValue = zipCodeInput.value; // get the content of the input element
     var zipMessage = document.getElementById("zipCodeLabel"); //for altering the text
-    console.log(zipCodeInputValue.length);
+    //console.log(zipCodeInputValue.length);
         if (zipCodeInputValue.length === 0) { // if length is zero it means there is no text
         zipMessage.style.color= '#8B0000'; //change text to red to indicate error
-        console.log("zip error");
+        //console.log("zip error");
     }  else {
         zipMessage.style.color= '#000000'; //resets colour to black if zip code entered.
-        console.log("zip OK");
+        //console.log("zip OK");
     }
 }
 }
