@@ -22,6 +22,12 @@ var activityLength = activityLabels.length; //length of activities (how many lab
 // FUNCTIONS
 ///////////////////
 
+function ids () { //adds in all the IDs and tags
+
+
+
+}
+
 function focus () {
     document.getElementById("name").focus(); //Sets focus on the first text field on page load.
 }
@@ -47,14 +53,6 @@ function titleOther() { // Job Role. If user selects 'other' insert input elemen
         }
 }
 
-
-
-//(function (){ //nested anonymous function.
-    //executable content goes here
-//)();
-//}
-
-//need to add comments to this function
 
 function tShirt() { //hides and displays colours and colour menu depending on design selection.
 
@@ -189,22 +187,16 @@ function payment() { //inserts either cc, paypal or bitcoin divs depending on us
     }
 
 
-//the error here could be fixed by dong querySelectorAll? You'd need to alter the text a bit.
-    //Finish up credit card validator first
+
 function disableBubbles() { //this function disables the browser's automatic error bubbles
-    document.querySelector( "input" ).addEventListener( "invalid", //
-            function( event ) {
-                event.preventDefault();
+    document.querySelector( "input" ).addEventListener( "invalid", // //get all inputs and checks if invalid (using the required attribute)
+            function( x ) { //prevent default method is run on any invalid inputs
+                x.preventDefault();
             });
 }
 
-
-//MAKE EACH OF THESE SELF EXECUTING WITHIN THE VALIDATE FUNCTION?
-
-//run this / these on key press.
-
 function validate() {
-    disableBubbles(); //disable the broswer's default error bubbles
+    disableBubbles(); //disable the browser's default error bubbles
 
     //NAME INPUT VALIDATOR
     var nameInput = document.getElementById("name"); //get the name input
@@ -290,28 +282,9 @@ function validate() {
      paymentMessage.textContent= "I'm going to pay with:"; //return ui text to original
     }
 
-
-
-
-
-
-//DO THIS
-//add an onchange to above so that message returns to black after user selects credit card?
-
-
-
-
-
-
-
 } //end of function
 
 //CREDIT CARD VALIDATOR
-
-
-
-
-
 function valid_credit_card() { //fires when register clicked
     disableBubbles();
 
@@ -414,17 +387,17 @@ function valid_credit_card() { //fires when register clicked
     //CVV VALIDATOR
     if (document.getElementById("cvv")) {
     var cvvMessage = document.getElementById("cvvLabel");
-    console.log(cvvMessage);
+    //console.log(cvvMessage);
 
     var cvvInput = document.getElementById("cvv");
-    console.log("CVV Input Element" + cvvInput);
+    //console.log("CVV Input Element" + cvvInput);
     var cvvInputValue = cvvInput.value; // get the content of the input element
-    console.log("Input value =" + cvvInputValue);
+    //console.log("Input value =" + cvvInputValue);
     var numbersOnly = /^\d+$/.test(cvvInputValue); //regex test checks to see if content is made up of numbers only. Returns TRUE or FALSE
 
-    console.log("Is Valid CVV? " + numbersOnly);
+    //console.log("Is Valid CVV? " + numbersOnly);
 
-    console.log("CVV Length =" + cvvInputValue.length);
+    //console.log("CVV Length =" + cvvInputValue.length);
 
     if (cvvInputValue.length === 0) {
         cvvMessage.textContent= "Enter CVV:"; //advise user to insert a CVV
@@ -435,7 +408,7 @@ function valid_credit_card() { //fires when register clicked
         cvvMessage.style.color= '#8B0000'; //change text to red to indicate error
 
     } else if (!numbersOnly) {
-        console.log("else if fired!");
+        //console.log("else if fired!");
         cvvMessage.textContent= "CVV (0-9 only):"; //error to indicate invalid cv
         cvvMessage.style.color= '#8B0000'; //change text to red to indicate error
 
@@ -474,8 +447,6 @@ function style() { //This function styles the select drop-down menus
 // WIRING
 ///////////////////
 
-//this can be improved. Add event listener directly to each function as required and run on click.
-
 window.onload = function() { //onload run the following functions:
   focus();
   titleOther();
@@ -489,16 +460,23 @@ window.onload = function() { //onload run the following functions:
       document.getElementById("exp-year").classList.toggle("styled-select"); //add "styled select" for drop-down styling
 };
 
-document.getElementById("title").addEventListener("change", titleOther);
-document.getElementById("design").addEventListener("change", tShirt);
-document.getElementsByTagName("fieldset")[2].addEventListener("change", activities);
-document.getElementsByTagName("fieldset")[2].addEventListener("change", runningTotal);
-document.getElementById("payment").addEventListener("change", payment);
-document.getElementsByTagName("button")[0].addEventListener("click", register, false); //starts code off once button is clicked.
 
-//this needs to be moved up once completed.
-function register() { //this functions will start validation once button is pressed
-    //console.log("Register!");
+//Event Handlers
+document.getElementById("title").addEventListener("change", titleOther);  //runs titleOther function on change
+document.getElementById("design").addEventListener("change", tShirt); //runs tShirt function on change
+document.getElementsByTagName("fieldset")[2].addEventListener("change", activities); //runs activities function on change
+document.getElementsByTagName("fieldset")[2].addEventListener("change", runningTotal); //runs runningTotal function on hange
+document.getElementById("payment").addEventListener("change", payment); //runs payment function on change
+document.getElementsByTagName("button")[0].addEventListener("click", register, false); //Runs register function once register button is pressed.
+
+//Validation event handlers
+document.getElementById("name").addEventListener("change", validate); //validate name input on change
+document.getElementById("mail").addEventListener("change", validate); //validate email input on change
+document.getElementById("design").addEventListener("change", validate); //validate design section on change
+document.getElementsByTagName("fieldset")[2].addEventListener("change", validate); //validate activities section on change
+
+
+function register() { //this functions will start validation once register button is pressed
     validate();
     valid_credit_card();
 }
