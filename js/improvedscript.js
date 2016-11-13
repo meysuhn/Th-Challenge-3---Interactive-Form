@@ -1,4 +1,31 @@
 
+//PROBLEMS:
+//(1) Validation
+    //Scenario 1
+    //after loading if all details are correctly entered then form will submit fine.
+
+    //Scenario 2 (Bug 1)
+    //after loading if 'register' is pressed right away without any data input then error messages will show however once the user adds in correct details and presses 'register' again then the form will fail to submit.
+
+    //Scenario 3 (Bug 2)
+    //after loading if a name is put in the name input but all other fields are left blank then the form will still incorrectly submit on pressing register. This only happens on the name field (i.e. if something is placed in the email field and everything else left black then the form does not submit)
+
+//(2) Firefox Select Menu Error
+    // the code works fine (in Chrome, Safari and Opera but on Firefox there is a problem with the dropdown menus. Once a drop down menu is clicked all the text turns to dashes (----------). I wonder if this has something to do with the webkit changes in css, but if it is I've not been able to find any info on it.
+
+//(3) tShirt and Activities error message.
+    //At present the error messages are inserted by accessing the legend elements and using insertAdjacentHTML. The problem with this is that it leaves a large gap between the error message and the legend text.
+
+    //I've tried inserting some error text as a child node of the legend element (see lines 21 - 26), but other than changing the colour I've been unable to alter the style of the inserted element (it's inheriting everything from the parent and I can't seem to change that)
+
+    //var node = document.createElement("p");
+    //var textnode = document.createTextNode("error message");
+    //node.appendChild(textnode);
+    //node.style.color= '#8B0000';
+    //var list = document.getElementById("legend");
+    //list.insertBefore(node, list.childNodes[1]);
+
+
 
 
 ///////////////////
@@ -18,6 +45,14 @@ var paymentFieldset = document.getElementsByTagName("fieldset")[3]; //stores who
 var activityLabels = document.querySelector('.activities').getElementsByTagName('label'); //get labels of activity class.
 var activityLength = activityLabels.length; //length of activities (how many labels/workshops)
 
+var nameSubmittable = false;
+var emailSubmittable = false;
+var tShirtSubmittable = false;
+var activitySubmittable = false;
+var paymentTypeSubmittable = false;
+var creditcardSubmittable = false;
+var cvvSubmittable = false;
+var zipSubmittable = false;
 
 ///////////////////
 // FUNCTIONS
@@ -35,7 +70,7 @@ document.getElementById("name").required = true; //adds required attribute for n
 
 }
 
-function focus () {
+function nameFocus () {
     document.getElementById("name").focus(); //Sets focus on the first text field on page load.
 }
 
@@ -187,12 +222,8 @@ function payment() { //inserts either cc, paypal or bitcoin divs depending on us
         paymentFieldset.appendChild(paypal);
     } else if (paymentType === "Bitcoin") { //adds in bitcoin section if selected
         paymentFieldset.appendChild(bitcoin);
-    } /* else {
-        document.getElementById("payment").options[1].selected = true;
-        paymentFieldset.appendChild(cc); //this sets cc option as default if nothing else selected (for onload, essentially) */
-            //not used as was preventing "select payment method" ever being displayed and so impacting on validation.
     }
-
+    }
 
 
 function disableBubbles() { //this function disables the browser's automatic error bubbles
@@ -202,35 +233,42 @@ function disableBubbles() { //this function disables the browser's automatic err
             });
 }
 
-function validate() {
-    disableBubbles(); //disable the browser's default error bubbles
 
-    //NAME INPUT VALIDATOR
-    var nameInput = document.getElementById("name"); //get the name input
-    var nameError = document.getElementsByTagName("fieldset")[0].childNodes[3]; //Access name label (3rd childnode of 1st fieldset)
-    if(nameInput.validity.valid === false) { //if input is empty (not valid)
-        nameError.style.color= '#8B0000'; //set error colour
-        nameError.textContent= "Name: (please provide your name)"; //set error message
-    } else {
-        nameError.style.color= '#000000'; //set error colour
-        nameError.textContent= "Name:"; //set error message
+function nameValidator() { //NAME INPUT VALIDATOR
+var nameInput = document.getElementById("name"); //get the name input
+var nameError = document.getElementsByTagName("fieldset")[0].childNodes[3]; //Access name label (3rd childnode of 1st fieldset)
+if(nameInput.validity.valid === false) { //if input is empty (not valid)
+    nameError.style.color= '#8B0000'; //set error colour
+    nameError.textContent= "Name: (please provide your name)"; //set error message
+    nameSubmittable = false;
+    //preventSubmission(); //prevent 'Register' button from submitting form data
+} else {
+    nameError.style.color= '#000000'; //set error colour
+    nameError.textContent= "Name:"; //set error message
+    nameSubmittable = true; //set submittable variable to true if a a name is input
+}
+console.log("Name Submittable =" + nameSubmittable);
+}
 
-    }
 
-
-    //EMAIL INPUT VALIDATOR
+function emailValidator() { //EMAIL INPUT VALIDATOR
     var emailInput = document.getElementById("mail"); //get email input
     var newEmail = document.getElementsByTagName("fieldset")[0].childNodes[7]; //access email label
     var validEmail = /[^@]+@[^@]+/.test(emailInput.value); //Regex test for correct email format
     if(!validEmail) { //if email is not valid...(returns 'false')
         newEmail.style.color= '#8B0000'; //set error colour
         newEmail.textContent= "Email: (please provide a valid email address)"; //set error message
+        emailSubmittable = false;
+        //preventSubmission(); //prevent 'Register' button from submitting form data
     } else {
         newEmail.style.color= '#000000'; //set error colour
         newEmail.textContent= "Email:"; //set error message
+        emailSubmittable = true; //set submittable variable to true if email input
     }
+    console.log("Email Submittable =" + emailSubmittable);
+}
 
-    //T-SHIRT VALIDATOR
+function tShirtValidator() { //T-SHIRT VALIDATOR
     var designSelectMenu = document.getElementById("design"); //get design select element
     var designValue = designSelectMenu.options[designSelectMenu.selectedIndex].value; //get selected value
     var tshirtLegend = document.getElementById("shirtError"); //access t-shirt fieldset legend
@@ -241,13 +279,20 @@ function validate() {
          tshirtLegend.insertAdjacentHTML('beforebegin', '<p id="tshirtErrorMessage">Don\'t forget to pick a T-Shirt</p>'); //insert error message
          var tshirtErrorColour = document.getElementById("tshirtErrorMessage"); //access newly created error element
          tshirtErrorColour.style.color = '#8B0000'; //set error colour
-     } else if (document.getElementById("tshirtErrorMessage")) { //checks to see if id/element exists
-             var elem4 = document.getElementById("tshirtErrorMessage"); //if it does exist, get it and...
-             elem4.remove(); //... remove it
+         tShirtSubmittable = false;
+         //preventSubmission(); //prevent 'Register' button from submitting form data
+     } else {
+         tShirtSubmittable = true;
+         if (document.getElementById("tshirtErrorMessage")) { //checks to see if id/element exists
+                 var elem4 = document.getElementById("tshirtErrorMessage"); //if it does exist, get it and...
+                 elem4.remove(); //... remove it
+                 tShirtSubmittable = true; //set submittable variable to true if a design selected
+         }
      }
+     console.log("TShirt Submittable =" + tShirtSubmittable);
+ }
 
-
-     //ACTIVITY VALIDITOR
+function activityValidator() { //ACTIVITY VALIDITOR
     if (document.getElementById("activityErrorMessage")) { //checks to see if id/element exists
         var elem5 = document.getElementById("activityErrorMessage"); //if it does exist, get it and...
         elem5.remove(); } //... remove it
@@ -257,25 +302,32 @@ function validate() {
      var checkboxResult = checkbox.checked; //stored the boolean value
      //console.log(i);
      if (checkboxResult === true) { //if any checkbox is checked (true) then break the loop
+         activitySubmittable = true;  //set submittable variable to true if at least one activity selected
          break;
      }
      }
      if (i === 7) { //if i = 7 it means all checkboxes are unchecked, in which case insert error
+
+
          var activityLegend = document.getElementById("actError"); //select activity legend
          activityLegend.insertAdjacentHTML('beforebegin', '<p id="activityErrorMessage">Please select an Activity</p>'); //insert error message
          var newcolour = document.getElementById("activityErrorMessage"); //access newly created error element
          newcolour.style.color = '#8B0000'; //set error colour
+         activitySubmittable = false;
+
+
 
      } else { //if i is not 7 then at least one checkbox is checked. Remove any existing error message.
          if (document.getElementById("activityErrorMessage")) { //checks to see if id/element exists
              var elem6 = document.getElementById("activityErrorMessage"); //if it does exist, get it and...
              elem6.remove(); } //... remove it
+             activitySubmittable = true;  //set submittable variable to true if at least one activity selected
              }
+             console.log("Activity Submittable =" + activitySubmittable);
+}
 
 
-
-
-    //PAYMENT TYPE VALIDATOR
+function paymentTypeValidator() { //PAYMENT TYPE VALIDATOR
      var paymentSelectMenu = document.getElementById("payment"); //get payment method select menu
      var paymentMethodValue = paymentSelectMenu.options[paymentSelectMenu.selectedIndex].value; //get value of selected method
      if (paymentMethodValue == "select_method") //test to see if matches "select_method"
@@ -283,18 +335,19 @@ function validate() {
      var paymentError = document.getElementsByTagName("fieldset")[3].childNodes[3]; //access ui (user interface) text
      paymentError.style.color= '#8B0000'; //set error colour
      paymentError.textContent= "Payment (please select a payment method:)"; //alter ui text
- } else { //return to original ui text
+     paymentTypeSubmittable = false;
+     //preventSubmission(); //prevent 'Register' button from submitting form data
+    } else { //return to original ui text
      var paymentMessage = document.getElementsByTagName("fieldset")[3].childNodes[3]; //access ui text
      paymentMessage.style.color= 'black'; //return colour to black
      paymentMessage.textContent= "I'm going to pay with:"; //return ui text to original
+     paymentTypeSubmittable = true; //set submittable variable to true if payment type selected
     }
-
-} //end of function
+    console.log("Payment Type Submittable =" + paymentTypeSubmittable);
+}
 
 //CREDIT CARD VALIDATOR
 function valid_credit_card() { //fires when register clicked
-    disableBubbles();
-
     var oddIndexNumbers =[]; //holds the oddly indexed numbers from card number
     var evenIndexNumbers =[]; //holds the evenly indexed numbers from card number
     var evenIndexNumbers2 = [];  //holds the altered even indexed numbers from card
@@ -317,6 +370,8 @@ function valid_credit_card() { //fires when register clicked
                         //console.log("Number has FAILED initial validity test");
                         ccMessage.textContent= "Not a valid card number:"; //insert error message
                         ccMessage.style.color= '#8B0000'; //set error colour
+                        creditcardSubmittable = false;
+                        //preventSubmission(); //prevent 'Register' button from submitting form data
 
                     } else {
                         console.log("PASSED initial validity test");
@@ -380,12 +435,19 @@ function valid_credit_card() { //fires when register clicked
                              console.log("Fail!");
                              ccMessage.textContent= "Not a valid card number:"; //insert error message
                              ccMessage.style.color= '#8B0000'; // //insert error colour
+                             submittable = false;
+                             //preventSubmission(); //prevent 'Register' button from submitting form data
                          } else {
                              console.log("Pass!");
                              ccMessage.textContent= "Card Number:"; //correct message
                              ccMessage.style.color= '#000000'; //correct message colour to OK
+                             creditcardSubmittable = true;
                          }
                     } // this closes the huge luhn else condition
+                    console.log("Credit Card Submittable =" + creditcardSubmittable);
+        } else {
+            creditcardSubmittable = true; //set submittable variable to true if credit card not selected
+            console.log("Credit Card Submittable =" + creditcardSubmittable);
         }
 
 
@@ -394,36 +456,38 @@ function valid_credit_card() { //fires when register clicked
     //CVV VALIDATOR
     if (document.getElementById("cvv")) {
     var cvvMessage = document.getElementById("cvvLabel");
-    //console.log(cvvMessage);
-
     var cvvInput = document.getElementById("cvv");
-    //console.log("CVV Input Element" + cvvInput);
     var cvvInputValue = cvvInput.value; // get the content of the input element
-    //console.log("Input value =" + cvvInputValue);
     var numbersOnly = /^\d+$/.test(cvvInputValue); //regex test checks to see if content is made up of numbers only. Returns TRUE or FALSE
-
-    //console.log("Is Valid CVV? " + numbersOnly);
-
-    //console.log("CVV Length =" + cvvInputValue.length);
 
     if (cvvInputValue.length === 0) {
         cvvMessage.textContent= "Enter CVV:"; //advise user to insert a CVV
         cvvMessage.style.color= '#8B0000'; //change text to red to indicate error
+        cvvSubmittable = false;
+
 
     } else if ((cvvInputValue.length < 3) || (cvvInputValue.length > 3)) {
         cvvMessage.textContent= "CVV (3 Digits):"; //error to indicate invalid cv
         cvvMessage.style.color= '#8B0000'; //change text to red to indicate error
+        cvvSubmittable = false;
 
     } else if (!numbersOnly) {
         //console.log("else if fired!");
         cvvMessage.textContent= "CVV (0-9 only):"; //error to indicate invalid cv
         cvvMessage.style.color= '#8B0000'; //change text to red to indicate error
+        cvvSubmittable = false;
+        //preventSubmission(); //prevent 'Register' button from submitting form data
 
     } else {
         cvvMessage.textContent= "CVV:"; //reset message to original
         cvvMessage.style.color= '#000000'; //resets colour to black if zip code entered.
+        cvvSubmittable = true;
     }
-    }
+    console.log("CVV Submittable =" + cvvSubmittable);
+} else {
+    cvvSubmittable = true; //set submittable variable to true if credit card not selected
+    console.log("CVV Submittable =" + cvvSubmittable);
+}
 
     //ZIP CODE VALIDATOR
     if (document.getElementById("zip")) {
@@ -434,11 +498,19 @@ function valid_credit_card() { //fires when register clicked
         if (zipCodeInputValue.length === 0) { // if length is zero it means there is no text
         zipMessage.style.color= '#8B0000'; //change text to red to indicate error
         //console.log("zip error");
+        zipSubmittable = false;
+        //preventSubmission(); //prevent 'Register' button from submitting form data
     }  else {
         zipMessage.style.color= '#000000'; //resets colour to black if zip code entered.
+        zipSubmittable = true;
         //console.log("zip OK");
     }
+    console.log("Zip Code Submittable =" + zipSubmittable);
+} else {
+    zipSubmittable = true; //set submittable variable to true if credit card not selected
+    console.log("Zip Code Submittable =" + zipSubmittable);
 }
+
 }
 
 
@@ -455,8 +527,8 @@ function style() { //This function styles the select drop-down menus
 ///////////////////
 
 window.onload = function() { //onload run the following functions:
-  ids();
-  focus();
+  ids(); //adds required ids.
+  nameFocus();
   titleOther();
   tShirt();
   activities();
@@ -466,6 +538,12 @@ window.onload = function() { //onload run the following functions:
   paymentFieldset.appendChild(cc); //this sets cc option as default if nother else selected (for onload,
       document.getElementById("exp-month").classList.toggle("styled-select"); //add "styled select" for drop-down styling
       document.getElementById("exp-year").classList.toggle("styled-select"); //add "styled select" for drop-down styling
+      var b = document.querySelector("button"); //must
+      if (b.type === "submit") {
+         b.removeAttribute("submit");
+      }
+
+
 };
 
 
@@ -475,16 +553,33 @@ document.getElementById("design").addEventListener("change", tShirt); //runs tSh
 document.getElementsByTagName("fieldset")[2].addEventListener("change", activities); //runs activities function on change
 document.getElementsByTagName("fieldset")[2].addEventListener("change", runningTotal); //runs runningTotal function on hange
 document.getElementById("payment").addEventListener("change", payment); //runs payment function on change
-document.getElementsByTagName("button")[0].addEventListener("click", register, false); //Runs register function once register button is pressed.
+
 
 //Validation event handlers
-document.getElementById("name").addEventListener("change", validate); //validate name input on change
-document.getElementById("mail").addEventListener("change", validate); //validate email input on change
-document.getElementById("design").addEventListener("change", validate); //validate design section on change
-document.getElementsByTagName("fieldset")[2].addEventListener("change", validate); //validate activities section on change
+document.getElementById("name").addEventListener("change", nameValidator); //validate name input on change
+document.getElementById("mail").addEventListener("change", emailValidator); //validate email input on change
+document.getElementById("design").addEventListener("change", tShirtValidator); //validate design section on change
+document.getElementsByTagName("fieldset")[2].addEventListener("change", activityValidator); //validate activities section on change
+document.getElementById("payment").addEventListener("change", paymentTypeValidator); //validate payment section on change
+
+
+document.getElementsByTagName("button")[0].addEventListener("click", register); //Runs register function once register button is pressed.
+
 
 
 function register() { //this functions will start validation once register button is pressed
-    validate();
+    disableBubbles();
+    nameValidator();
+    emailValidator();
+    tShirtValidator();
+    activityValidator();
     valid_credit_card();
+    if (nameSubmittable || emailSubmittable || tShirtSubmittable || activitySubmittable || paymentTypeSubmittable || creditcardSubmittable || cvvSubmittable || zipSubmittable === false) { //if any of the variables are false then prevent form submitting
+        console.log("At least one condition is false");
+        document.getElementById("button").addEventListener("click", function(event){
+        event.preventDefault();
+    }
+);} else {
+    console.log("All true, can submit to server");
+}
 }
