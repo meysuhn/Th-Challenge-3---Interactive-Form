@@ -6,11 +6,13 @@
 
     //Scenario 2 (Bug 1)
     //after loading if 'register' is pressed right away without any data input then error messages will show however once the user adds in correct details and presses 'register' again then the form will fail to submit.
-        // - this still happening
+        // - FIXED
 
     //Scenario 3 (Bug 2)
     //after loading if a name is put in the name input but all other fields are left blank then the form will still incorrectly submit on pressing register. This only happens on the name field (i.e. if something is placed in the email field and everything else left black then the form does not submit)
      // - this still happening
+      // UPDATE: if any extra field besides the name input is completed so as to set its respective validation boolean to true, along with the name input being completed, but all other fields are left blank then the form will not be allowed to submit.
+        //it seems there is something very specific with the name input function that when left submitted by itself the form validation fails.
 
 //(2) Firefox Select Menu Error
     // the code works fine (in Chrome, Safari and Opera but on Firefox there is a problem with the dropdown menus. Once a drop down menu is clicked all the text turns to dashes (----------). I wonder if this has something to do with the webkit changes in css, but if it is I've not been able to find any info on it.
@@ -237,6 +239,7 @@ function disableBubbles() { //this function disables the browser's automatic err
 
 
 function nameValidator() { //NAME INPUT VALIDATOR
+nameSubmittable = false;
 var nameInput = document.getElementById("name"); //get the name input
 var nameError = document.getElementsByTagName("fieldset")[0].childNodes[3]; //Access name label (3rd childnode of 1st fieldset)
 if(nameInput.validity.valid === false) { //if input is empty (not valid)
@@ -540,11 +543,6 @@ window.onload = function() { //onload run the following functions:
   paymentFieldset.appendChild(cc); //this sets cc option as default if nother else selected (for onload,
       document.getElementById("exp-month").classList.toggle("styled-select"); //add "styled select" for drop-down styling
       document.getElementById("exp-year").classList.toggle("styled-select"); //add "styled select" for drop-down styling
-      var b = document.querySelector("button"); //must
-      if (b.type === "submit") {
-         b.removeAttribute("submit");
-      }
-
 
 };
 
@@ -569,19 +567,36 @@ document.getElementsByTagName("button")[0].addEventListener("click", register); 
 
 
 
-function register() { //this functions will start validation once register button is pressed
+function register(event) { //this functions will start validation once register button is pressed
     disableBubbles();
     nameValidator();
     emailValidator();
     tShirtValidator();
     activityValidator();
     valid_credit_card();
-    if ((nameSubmittable === false) || (emailSubmittable === false) || (tShirtSubmittable === false) || (activitySubmittable === false) || (paymentTypeSubmittable === false) || (creditcardSubmittable === false) || (cvvSubmittable === false) || (zipSubmittable === false)) { //if any of the variables are false then prevent form submitting
+    if ( (emailSubmittable === true) && (tShirtSubmittable === true) && (activitySubmittable === true) && (paymentTypeSubmittable === true) && (creditcardSubmittable === true) && (cvvSubmittable === true) && (zipSubmittable === true) &&(nameSubmittable === true)) { //if any of the variables are false then prevent form submitting
+        console.log("All true, can submit to server");
+    } else {
         console.log("At least one condition is false");
-        document.getElementById("button").addEventListener("click", function(event){
+        //document.getElementById("button").addEventListener("click", function(event){
         event.preventDefault();
+
     }
+
+}
+
+
+/*
+if ((nameSubmittable === false) || (emailSubmittable === false) || (tShirtSubmittable === false) || (activitySubmittable === false) || (paymentTypeSubmittable === false) || (creditcardSubmittable === false) || (cvvSubmittable === false) || (zipSubmittable === false)) { //if any of the variables are false then prevent form submitting
+    console.log("At least one condition is false");
+    document.getElementById("button").addEventListener("click", function(event){
+    event.preventDefault();
+}
 );} else {
-    console.log("All true, can submit to server");
+console.log("All true, can submit to server");
 }
-}
+*/
+
+
+// onload, if all complete then will submit fine.
+    //if I re-add data after without having refreshed the form,
