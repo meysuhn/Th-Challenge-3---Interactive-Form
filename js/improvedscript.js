@@ -6,9 +6,11 @@
 
     //Scenario 2 (Bug 1)
     //after loading if 'register' is pressed right away without any data input then error messages will show however once the user adds in correct details and presses 'register' again then the form will fail to submit.
+        // - this still happening
 
     //Scenario 3 (Bug 2)
     //after loading if a name is put in the name input but all other fields are left blank then the form will still incorrectly submit on pressing register. This only happens on the name field (i.e. if something is placed in the email field and everything else left black then the form does not submit)
+     // - this still happening
 
 //(2) Firefox Select Menu Error
     // the code works fine (in Chrome, Safari and Opera but on Firefox there is a problem with the dropdown menus. Once a drop down menu is clicked all the text turns to dashes (----------). I wonder if this has something to do with the webkit changes in css, but if it is I've not been able to find any info on it.
@@ -574,7 +576,7 @@ function register() { //this functions will start validation once register butto
     tShirtValidator();
     activityValidator();
     valid_credit_card();
-    if (nameSubmittable || emailSubmittable || tShirtSubmittable || activitySubmittable || paymentTypeSubmittable || creditcardSubmittable || cvvSubmittable || zipSubmittable === false) { //if any of the variables are false then prevent form submitting
+    if ((nameSubmittable === false) || (emailSubmittable === false) || (tShirtSubmittable === false) || (activitySubmittable === false) || (paymentTypeSubmittable === false) || (creditcardSubmittable === false) || (cvvSubmittable === false) || (zipSubmittable === false)) { //if any of the variables are false then prevent form submitting
         console.log("At least one condition is false");
         document.getElementById("button").addEventListener("click", function(event){
         event.preventDefault();
