@@ -1,23 +1,8 @@
 
-//PROBLEMS:
-//(1) Validation
-    //Scenario 1
-    //after loading if all details are correctly entered then form will submit fine.
-
-    //Scenario 2 (Bug 1)
-    //after loading if 'register' is pressed right away without any data input then error messages will show however once the user adds in correct details and presses 'register' again then the form will fail to submit.
-        // - FIXED
-
-    //Scenario 3 (Bug 2)
-    //after loading if a name is put in the name input but all other fields are left blank then the form will still incorrectly submit on pressing register. This only happens on the name field (i.e. if something is placed in the email field and everything else left black then the form does not submit)
-     // - this still happening
-      // UPDATE: if any extra field besides the name input is completed so as to set its respective validation boolean to true, along with the name input being completed, but all other fields are left blank then the form will not be allowed to submit.
-        //it seems there is something very specific with the name input function that when left submitted by itself the form validation fails.
-
-//(2) Firefox Select Menu Error
+//(1) Firefox Select Menu Error
     // the code works fine (in Chrome, Safari and Opera but on Firefox there is a problem with the dropdown menus. Once a drop down menu is clicked all the text turns to dashes (----------). I wonder if this has something to do with the webkit changes in css, but if it is I've not been able to find any info on it.
 
-//(3) tShirt and Activities error message.
+//(2) tShirt and Activities error message.
     //At present the error messages are inserted by accessing the legend elements and using insertAdjacentHTML. The problem with this is that it leaves a large gap between the error message and the legend text.
 
     //I've tried inserting some error text as a child node of the legend element (see lines 21 - 26), but other than changing the colour I've been unable to alter the style of the inserted element (it's inheriting everything from the parent and I can't seem to change that)
@@ -574,29 +559,13 @@ function register(event) { //this functions will start validation once register 
     tShirtValidator();
     activityValidator();
     valid_credit_card();
-    if ( (emailSubmittable === true) && (tShirtSubmittable === true) && (activitySubmittable === true) && (paymentTypeSubmittable === true) && (creditcardSubmittable === true) && (cvvSubmittable === true) && (zipSubmittable === true) &&(nameSubmittable === true)) { //if any of the variables are false then prevent form submitting
-        console.log("All true, can submit to server");
+    if ( (emailSubmittable === true) && (tShirtSubmittable === true) && (activitySubmittable === true) && (paymentTypeSubmittable === true) && (creditcardSubmittable === true) && (cvvSubmittable === true) && (zipSubmittable === true) &&(nameSubmittable === true)) {
+        console.log("All true, can submit to server"); //if all true then allow form to submit
     } else {
         console.log("At least one condition is false");
-        //document.getElementById("button").addEventListener("click", function(event){
+        //if any of the variables are false then prevent form submitting
         event.preventDefault();
 
     }
 
 }
-
-
-/*
-if ((nameSubmittable === false) || (emailSubmittable === false) || (tShirtSubmittable === false) || (activitySubmittable === false) || (paymentTypeSubmittable === false) || (creditcardSubmittable === false) || (cvvSubmittable === false) || (zipSubmittable === false)) { //if any of the variables are false then prevent form submitting
-    console.log("At least one condition is false");
-    document.getElementById("button").addEventListener("click", function(event){
-    event.preventDefault();
-}
-);} else {
-console.log("All true, can submit to server");
-}
-*/
-
-
-// onload, if all complete then will submit fine.
-    //if I re-add data after without having refreshed the form,
